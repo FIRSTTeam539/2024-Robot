@@ -51,9 +51,9 @@ public class RobotContainer {
     // Configure default commands
     TeleopDrive teleopDrive = new TeleopDrive(m_robotDrive, 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.LEFT_Y_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
-      OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
+      OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), 0.2))), 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
-      OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())),  
+      OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), 0.2))),  
       (()->MathUtil.applyDeadband(m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
       ()->true);
@@ -78,7 +78,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //when the right stick is pushed down, moves wheels in x formation to stop all movement
-    m_driverController0.rightStick().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
+    m_driverController0.x().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
     m_driverController0.y().onTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
   }
 
