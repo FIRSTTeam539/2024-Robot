@@ -51,10 +51,10 @@ public class RobotContainer {
     // Configure default commands
     TeleopDrive teleopDrive = new TeleopDrive(m_robotDrive, 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.LEFT_Y_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
-      OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), 0.2))), 
+      OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), OIConstants.RIGHT_TRIGGER_DEADBAND))), 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
-      OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), 0.2))),  
-      (()->MathUtil.applyDeadband(m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
+      OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), OIConstants.RIGHT_TRIGGER_DEADBAND))),  
+      (()->MathUtil.applyDeadband(-m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
       ()->true);
     
