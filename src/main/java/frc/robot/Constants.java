@@ -55,9 +55,9 @@ public final class Constants {
     public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(21);
+    public static final double kTrackWidth = Units.inchesToMeters(24);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(21);
+    public static final double kWheelBase = Units.inchesToMeters(24);
   }
 
   public static final class ModuleConstants {
@@ -96,6 +96,7 @@ public final class Constants {
     public static final double RIGHT_X_DEADBAND = 0.05;
     public static final double RIGHT_TRIGGER_DEADBAND = 0.05;
     public static final double TURN_CONSTANT = 0.75;
+    
   }
 
 }
