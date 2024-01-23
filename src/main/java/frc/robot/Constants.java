@@ -35,13 +35,35 @@ public final class Constants {
   public static final class Auton
   {
 
-    public static final PIDFConfig xAutoPID     = new PIDFConfig(0.7, 0, 0);
-    public static final PIDFConfig yAutoPID     = new PIDFConfig(0.7, 0, 0);
-    public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
+    //public static final PIDFConfig xAutoPID     = new PIDFConfig(0.7, 0, 0);
+    //public static final PIDFConfig yAutoPID     = new PIDFConfig(0.7, 0, 0);
+    //public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
+
+    public static final PIDFConfig TranslationPID = new PIDFConfig(0.7, 0, 0);
+    public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.4, 0, 0.01);
 
     public static final double MAX_SPEED        = 4;
     public static final double MAX_ACCELERATION = 2;
   }
+
+
+  public static final class ArmConstants{
+    public static final int kArmSparkMaxCANID1 = 128; // reconfigure to actual values
+    public static final int kArmSparkMaxCANID2 = 1170000;//set to value
+    public static final int kEncoderID = 1000000; //adjust to actual value
+
+    public static final double kArmRate = 0.2;
+
+    //min/ max value of arm
+    public static final double kMaxDownSpeed= -0.7;
+    public static final double kMaxUpSpeed= 0.7;
+    //set value of deadzone
+
+
+  //move arm power
+  public static final double ARM_OUTPUT_POWER = 0.5;
+  }
+
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
@@ -96,7 +118,6 @@ public final class Constants {
     public static final double RIGHT_X_DEADBAND = 0.05;
     public static final double RIGHT_TRIGGER_DEADBAND = 0.05;
     public static final double TURN_CONSTANT = 0.75;
-    
   }
 
 }
