@@ -64,6 +64,11 @@ public final class Constants {
   public static final double ARM_OUTPUT_POWER = 0.5;
   }
 
+  public static final class ClimbConstants {
+    public static final int kClimbSparkMaxCANID1 = 194887487; // change to real value
+    public static final int kClimbSparkMaxCANID2 = 194887487; // change to real value
+  }
+
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
@@ -104,6 +109,9 @@ public final class Constants {
     public static final int kTurningMotorCurrentLimit = 20; // amps
   }
 
+  /**
+   * 
+   */
   public static final class OIConstants {
     public static final int kDriverControllerPort0 = 0;
     public static final int kDriverControllerPort1 = 1;
@@ -119,5 +127,7 @@ public final class Constants {
     public static final double RIGHT_TRIGGER_DEADBAND = 0.05;
     public static final double TURN_CONSTANT = 0.75;
   }
+
+
 
 }

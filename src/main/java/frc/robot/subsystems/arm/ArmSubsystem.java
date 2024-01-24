@@ -49,8 +49,12 @@ public class ArmSubsystem extends SubsystemBase{
         return this.run(() ->this.setArmVelocity(input));
     }
     
-    public void setArmPos(double pos){
-        setArmVelocity(ArmConstants.kMaxDownSpeed);
+    public void setArmPos(double goalPos){
+        if(goalPos > this.getAbsolutePossition()){
+            setArmVelocity(ArmConstants.kMaxUpSpeed);
+        } else if (goalPos < this.getAbsolutePossition()){
+            setArmVelocity(ArmConstants.kMaxDownSpeed);
+        }
     }
     /*public Command setArmPos(double pos){
         return this.run(()->)
