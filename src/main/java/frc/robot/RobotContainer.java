@@ -54,7 +54,7 @@ public class RobotContainer {
       OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), OIConstants.RIGHT_TRIGGER_DEADBAND))), 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), OIConstants.RIGHT_TRIGGER_DEADBAND))),  
-      (()->MathUtil.applyDeadband(-m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
+      (()->MathUtil.applyDeadband(m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
       ()->true);
     
