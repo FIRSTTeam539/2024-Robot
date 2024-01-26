@@ -1,7 +1,7 @@
 {
   "location": {
-    "front": -11.25,
-    "left": 11.25
+    "front": -12,
+    "left": 12
   },
   "absoluteEncoderOffset": -86,
 
@@ -16,8 +16,8 @@
     "canbus": null
   },
   "conversionFactor": {
-    "angle": 0,
-    "drive": 0
+    "angle": null,
+    "drive": null
   },
   "encoder": {
     "type": "cancoder",
