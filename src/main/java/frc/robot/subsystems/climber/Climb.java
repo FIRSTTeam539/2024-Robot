@@ -22,4 +22,8 @@ public class Climb {
         climbMotor2.setIdleMode(IdleMode.kBrake);
     }
     
+    public void setClimb(double rate){
+        climbMotor1.set(rate);
+        climbMotor2.set(rate);
+    }
 }
