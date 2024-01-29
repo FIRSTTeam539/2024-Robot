@@ -62,6 +62,10 @@ public final class Constants {
 
   //move arm power
   public static final double ARM_OUTPUT_POWER = 0.5;
+  } 
+
+  public static final class IntakeConstants{
+    public static final int kIntakeSparkMaxCANID = 13798287; //change to actual value
   }
 
   public static final class ClimbConstants {
@@ -87,7 +91,7 @@ public final class Constants {
     public static final double kWheelBase = Units.inchesToMeters(24);
   }
 
-  public static final class ModuleConstants {
+  /*public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
     // This changes the drive speed of the module (a pinion gear with more teeth will result in a
     // robot that drives faster).
@@ -106,7 +110,7 @@ public final class Constants {
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
     public static final int kTurningMotorCurrentLimit = 20; // amps
-  }
+  }*/
 
   /**
    * 
