@@ -13,6 +13,8 @@ import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
 import edu.wpi.first.math.geometry.Translation3d;
 import swervelib.parser.PIDFConfig;
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.Encoder;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -68,6 +70,13 @@ public final class Constants {
     public static final int kIntakeSparkMaxCANID = 13798287; //change to actual value
     public static final int kShooterSparkMaxCANID1 = 18343848; 
     public static final int kShooterSparkMaxCANID2 = 44398;
+
+    public static final int kIntakeEncoderIDA = 1;
+    public static final int kIntakeEncoderIDB = 2;
+    public static final boolean kEncoderDirectionReversed = false;
+    public static final  CounterBase.EncodingType kEncoderDecodingType = Encoder.EncodingType.k2X; 
+    public static final double shooterWheelRadius = Units.inchesToMeters(2); //in meter per seconds
+    public static final double kShooterDistancePerPulse = 2*Math.PI*shooterWheelRadius; // in meters
 
     public static final double kIntakeSpeed = 1;
     public static final double kShooterSpeed = 1;
