@@ -66,6 +66,12 @@ public final class Constants {
 
   public static final class IntakeConstants{
     public static final int kIntakeSparkMaxCANID = 13798287; //change to actual value
+    public static final int kShooterSparkMaxCANID1 = 18343848; 
+    public static final int kShooterSparkMaxCANID2 = 44398;
+
+    public static final double kIntakeSpeed = 1;
+    public static final double kShooterSpeed = 1;
+
   }
 
   public static final class ClimbConstants {
