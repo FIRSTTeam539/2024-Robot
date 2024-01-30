@@ -126,13 +126,17 @@ public class SwerveSubsystem extends SubsystemBase
   }
 
   /**
-   * might not work
-   * @return
+   * 
+   * @return returns the current robot speed in meters per second
    */
   public double getRobotSpeed(){
     return Math.sqrt(Math.pow(swerveDrive.getRobotVelocity().vxMetersPerSecond,2)+Math.pow(swerveDrive.getRobotVelocity().vyMetersPerSecond, 2));
   }
 
+  /**
+   * 
+   * @return returns the current angular Velocity in meters per second
+   */
   public double getRobotAngularVelocity(){
     return swerveDrive.getRobotVelocity().omegaRadiansPerSecond;
   }
