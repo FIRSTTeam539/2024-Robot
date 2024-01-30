@@ -18,8 +18,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.io.File;
@@ -68,6 +70,9 @@ public class SwerveSubsystem extends SubsystemBase
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SmartDashboard.putNumber("Velocity", this.getRobotSpeed());
+    SmartDashboard.putNumber("Angular Rotation", this.getRobotAngularVelocity());
+
     try
     {
       //swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
@@ -124,8 +129,12 @@ public class SwerveSubsystem extends SubsystemBase
    * might not work
    * @return
    */
-  public double getMaximumAngularVelocity(){
-    return swerveDrive.getMaximumAngularVelocity();
+  public double getRobotSpeed(){
+    return Math.sqrt(Math.pow(swerveDrive.getRobotVelocity().vxMetersPerSecond,2)+Math.pow(swerveDrive.getRobotVelocity().vyMetersPerSecond, 2));
+  }
+
+  public double getRobotAngularVelocity(){
+    return swerveDrive.getRobotVelocity().omegaRadiansPerSecond;
   }
 
   /**
