@@ -47,7 +47,10 @@ public class ArmSubsystem extends SubsystemBase{
     public Command moveArm(double input){
         return this.run(() ->this.setArmVelocity(input));
     }
-    
+    /**
+     * Current does not work; will set up as command latter
+     * @param goalPos
+     */
     public void setArmPos(double goalPos){
         if(goalPos > this.getAbsolutePossition()){
             setArmVelocity(ArmConstants.kMaxUpSpeed);
