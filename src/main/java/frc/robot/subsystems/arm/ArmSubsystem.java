@@ -11,14 +11,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-/**
- * ArmSubsystem
- */
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+
+
+
 public class ArmSubsystem extends SubsystemBase{
     private final CANSparkMax armMotor1 = new CANSparkMax(ArmConstants.kArmSparkMaxCANID1, MotorType.kBrushless);
     private final CANSparkMax armMotor2 = new CANSparkMax(ArmConstants.kArmSparkMaxCANID2, MotorType.kBrushless);
     private final DutyCycleEncoder armEnc = new DutyCycleEncoder(ArmConstants.kEncoderID);
-
+    /**
+     * 
+     */
     ArmSubsystem (){
         armMotor1.setIdleMode(IdleMode.kBrake);
         armMotor2.setIdleMode(IdleMode.kBrake);
@@ -47,8 +52,9 @@ public class ArmSubsystem extends SubsystemBase{
     public Command moveArm(double input){
         return this.run(() ->this.setArmVelocity(input));
     }
+
     /**
-     * Current does not work; will set up as command latter
+     * Current does not work; will set up as command latter set up as PID subsystem
      * @param goalPos
      */
     public void setArmPos(double goalPos){

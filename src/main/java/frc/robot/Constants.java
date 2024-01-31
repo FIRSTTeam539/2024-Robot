@@ -71,8 +71,7 @@ public final class Constants {
     public static final int kShooterSparkMaxCANID1 = 18343848; 
     public static final int kShooterSparkMaxCANID2 = 44398;
 
-    public static final int kIntakeEncoderIDA = 1;
-    public static final int kIntakeEncoderIDB = 2;
+    public static final int[] kIntakeEncoderID = {1,2};
     public static final boolean kEncoderDirectionReversed = false;
     public static final  CounterBase.EncodingType kEncoderDecodingType = Encoder.EncodingType.k2X; 
     public static final double shooterWheelRadius = Units.inchesToMeters(2); //in meter per seconds
