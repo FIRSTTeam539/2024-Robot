@@ -54,6 +54,19 @@ public final class Constants {
     public static final int kArmSparkMaxCANID2 = 1170000;//set to value
     public static final int kEncoderID = 1000000; //adjust to actual value
 
+    public static final int kSVolts = 0; //smallest value to make arm move miscule amount - static movment amount
+    public static final int kGVolts = 0;
+    public static final int kVVoltSecondsPerRad =0;
+
+    public static final double kArmOffsetRads = 0;
+
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
+
+
     public static final double kArmRate = 0.2;
 
     //min/ max value of arm

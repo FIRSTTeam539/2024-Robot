@@ -11,25 +11,45 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.ArmFeedforward;
 
 
 
-public class ArmSubsystem extends SubsystemBase{
+public class ArmSubsystem extends PIDSubsystem{
     private final CANSparkMax armMotor1 = new CANSparkMax(ArmConstants.kArmSparkMaxCANID1, MotorType.kBrushless);
     private final CANSparkMax armMotor2 = new CANSparkMax(ArmConstants.kArmSparkMaxCANID2, MotorType.kBrushless);
     private final DutyCycleEncoder armEnc = new DutyCycleEncoder(ArmConstants.kEncoderID);
+    private final ArmFeedforward m_shooterFeedforward =
+      new ArmFeedforward(
+          ArmConstants.kSVolts, ArmConstants.kGVolts, ArmConstants.kVVoltSecondsPerRad);
     /**
      * 
      */
-    ArmSubsystem (){
+      /** The shooter subsystem for the robot. */
+    ArmSubsystem() {
+        super(new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD));
+        armEnc.setDistancePerRotation(ArmConstants.kEncoderDistancePerRotation);
+        armEnc.setPositionOffset(ArmConstants.kArmOffsetRads);
+    }
+   /* ArmSubsystem (){
         armMotor1.setIdleMode(IdleMode.kBrake);
         armMotor2.setIdleMode(IdleMode.kBrake);
         armEnc.reset();
 
+    }*/
+    @Override
+    public void useOutput(double output, double setpoint) {
+        armMotor1.set(setpoint);
+        //m_ArmMotor.setVoltage(output + m_shooterFeedforward.calculate(setpoint));
     }
+    @Override
+    public double getMeasurement() {
+      return armEnc.getDistance();
+    }
+  
 
         /**
      *sets arm to a possition
