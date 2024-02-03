@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj.Encoder;
 
-public class Intake extends SubsystemBase{
+public class IntakeSubsystem extends SubsystemBase{
     private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.kIntakeSparkMaxCANID, MotorType.kBrushless);
     private final CANSparkMax shooterMotor1 = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID1, MotorType.kBrushless);
     private final CANSparkMax shooterMotor2 = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID2, MotorType.kBrushless);
     private final Encoder shooterEnc = new Encoder(IntakeConstants.kIntakeEncoderID[0], IntakeConstants.kIntakeEncoderID[1], IntakeConstants.kEncoderDirectionReversed);
 
-    Intake(){
+    public IntakeSubsystem(){
         intakeMotor.setIdleMode(IdleMode.kBrake);
         shooterMotor1.setIdleMode(IdleMode.kBrake);
         shooterMotor2.setIdleMode(IdleMode.kBrake);
@@ -43,8 +43,12 @@ public class Intake extends SubsystemBase{
         return this.startEnd(()-> this.setIntakeSpeed(0), ()->this.setIntakeSpeed(0));
     }
 
+    public Command shootSpeakerCommand(){
+        return this.run(()->this.setShooterSpeed(IntakeConstants.kShooterSpeedSpeaker));//may need to reverse direction
+    }
+
     public Command shootCommand(){
-        return this.run(()->this.setShooterSpeed(IntakeConstants.kShooterSpeed));//may need to reverse direction
+        return this.run(()->this.setShooterSpeed(IntakeConstants.kShooterSpeedAmp));
     }
     
     public Command stopShootCommand(){

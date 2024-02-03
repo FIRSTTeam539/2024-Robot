@@ -57,7 +57,7 @@ public class ArmSubsystem extends SubsystemBase{
      * 
      */
       /** The shooter subsystem for the robot. */
-    ArmSubsystem() {
+    public ArmSubsystem() {
         /*super(
         new TrapezoidProfile.Constraints(
             ArmConstants.kMaxVelocityRadPerSecond, ArmConstants.kMaxAccelerationRadPerSecSquared),
@@ -112,11 +112,11 @@ public class ArmSubsystem extends SubsystemBase{
             ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
       }
   
-      SmartDashboard.putNumber("Wrist Position Radians", getArmPosition());
-      SmartDashboard.putNumber("Wrist Position Raw", armEncoder.getPosition());
+      SmartDashboard.putNumber("arm Position Radians", getArmPosition());
+      SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());
     }
 
-    public void moveWrist(double speed){
+    public void moveArmAtSpeed(double speed){
         targetPosition = null;
         armLeader.set(speed);
     }
@@ -131,11 +131,25 @@ public class ArmSubsystem extends SubsystemBase{
         targetPosition = radians;
     }
 
+    public Command moveToPositionCommand(double radians){
+        return this.run(()->this.moveToPosition(radians));
+    }
+
     /**
     * Gets the wrist position Zero is horizontal, up is positive
     * @return position in radians
     */
     public double getArmPosition() {
+        if (targetPosition != null) {
+            // Calculate feed forward based on angle to counteract gravity
+            double cosineScalar = Math.cos(getArmPosition());
+            double feedForward = GRAVITY_FF * cosineScalar;
+            pidController.setReference(armRadiansToEncoderRotations(targetPosition), 
+            ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
+      }
+      {
+
+      }
         return Units.rotationsToRadians(armEncoder.getPosition() + ENCODER_OFFSET);
     }
 

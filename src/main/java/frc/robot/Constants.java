@@ -105,7 +105,8 @@ public final class Constants {
     public static final double kShooterDistancePerPulse = 2*Math.PI*shooterWheelRadius; // in meters
 
     public static final double kIntakeSpeed = 1;
-    public static final double kShooterSpeed = 1;
+    public static final double kShooterSpeedSpeaker = 1;
+    public static final double kShooterSpeedAmp = 0.2;
 
   }
 
@@ -164,12 +165,18 @@ public final class Constants {
 
     public static final double kDefaultDriveSpeed = 0.8;
     public static final double kDriveSpeedIncreaseConstant = 1- kDefaultDriveSpeed;
+    //controller 0
     // Joystick Deadband
-    public static final double LEFT_X_DEADBAND = 0.05;
-    public static final double LEFT_Y_DEADBAND = 0.05;
-    public static final double RIGHT_X_DEADBAND = 0.05;
-    public static final double RIGHT_TRIGGER_DEADBAND = 0.05;
+    public static final double LEFT_X_DEADBAND_1 = 0.05;
+    public static final double LEFT_Y_DEADBAND_1 = 0.05;
+    public static final double RIGHT_X_DEADBAND_1 = 0.05;
+
+    public static final double RIGHT_TRIGGER_DEADBAND_1 = 0.05;
     public static final double TURN_CONSTANT = 0.75;
+
+    //controller 1
+    public static final double RIGHT__Y_DEADBAND_2 = 0.05;
+    public static final double RIGHT_TRIGGER_DEADBAND_2 = 0.05;
   }
 
 

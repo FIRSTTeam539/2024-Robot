@@ -19,12 +19,12 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.ClimbConstants;
 
-public class Climb{
+public class ClimbSubsystem extends SubsystemBase{
 
     private final CANSparkMax climbMotor1 = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
     private final CANSparkMax climbMotor2 = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
 
-    Climb(){
+    public ClimbSubsystem(){
         climbMotor1.setIdleMode(IdleMode.kBrake);
         climbMotor2.setIdleMode(IdleMode.kBrake);
     }
@@ -32,5 +32,9 @@ public class Climb{
     public void setClimb(double rate){
         climbMotor1.set(rate);
         climbMotor2.set(rate);
+    }
+
+    public Command climbCommand(double rate){
+        return this.run(()->setClimb(rate));
     }
 }
