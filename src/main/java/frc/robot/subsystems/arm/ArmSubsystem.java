@@ -35,22 +35,18 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 public class ArmSubsystem extends SubsystemBase{
     private final int SMART_MOTION_SLOT = 0;
       // Offset in rotations to add to encoder value - offset from arm horizontal to sensor zero
-    private static final double ENCODER_OFFSET = -0.58342d;
-    private static final double GRAVITY_FF = 0.01;
-    private static final float LIMIT_BOTTOM = 0.5804f;
-    private static final float LIMIT_TOP = 0.8995f;
     private final CANSparkMax armLeader = new CANSparkMax(ArmConstants.kArmSparkMaxCANID1, MotorType.kBrushless);
     private final CANSparkMax armFollower = new CANSparkMax(ArmConstants.kArmSparkMaxCANID2, MotorType.kBrushless);
-    private final RelativeEncoder encoder1 = armLeader.getEncoder();
-    private final RelativeEncoder encoder2 = armFollower.getEncoder();
+    //private final RelativeEncoder encoder1 = armLeader.getEncoder();
+    //private final RelativeEncoder encoder2 = armFollower.getEncoder();
     private final SparkPIDController pidController = armLeader.getPIDController();
     //private final SparkPIDController m_pidController2 = armMotor2.getPIDController(); 
     private final DutyCycleEncoder armEnc = new DutyCycleEncoder(ArmConstants.kEncoderID);
     private final SparkAbsoluteEncoder armEncoder = armLeader.getAbsoluteEncoder(kDutyCycle);
-    private final ArmFeedforward m_feedforward =
+    /*private final ArmFeedforward m_feedforward =
         new ArmFeedforward(
             ArmConstants.kSVolts, ArmConstants.kGVolts,
-            ArmConstants.kVVoltSecondPerRad, ArmConstants.kAVoltSecondSquaredPerRad);
+            ArmConstants.kVVoltSecondPerRad, ArmConstants.kAVoltSecondSquaredPerRad);*/
 
     private Double targetPosition = null;
     /**
@@ -80,8 +76,8 @@ public class ArmSubsystem extends SubsystemBase{
         armLeader.setSmartCurrentLimit(20);
         armFollower.setSmartCurrentLimit(20);
         
-        armLeader.setSoftLimit(kForward, LIMIT_TOP);
-        armLeader.setSoftLimit(kReverse, LIMIT_BOTTOM);
+        armLeader.setSoftLimit(kForward, ArmConstants.LIMIT_TOP);
+        armLeader.setSoftLimit(kReverse, ArmConstants.LIMIT_BOTTOM);
         armLeader.enableSoftLimit(kForward, true);
         armLeader.enableSoftLimit(kReverse, true);
 
@@ -107,7 +103,7 @@ public class ArmSubsystem extends SubsystemBase{
       if (targetPosition != null) {
         // Calculate feed forward based on angle to counteract gravity
         double cosineScalar = Math.cos(getArmPosition());
-        double feedForward = GRAVITY_FF * cosineScalar;
+        double feedForward = ArmConstants.GRAVITY_FF * cosineScalar;
         pidController.setReference(armRadiansToEncoderRotations(targetPosition), 
             ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
       }
@@ -143,14 +139,14 @@ public class ArmSubsystem extends SubsystemBase{
         if (targetPosition != null) {
             // Calculate feed forward based on angle to counteract gravity
             double cosineScalar = Math.cos(getArmPosition());
-            double feedForward = GRAVITY_FF * cosineScalar;
+            double feedForward = ArmConstants.GRAVITY_FF * cosineScalar;
             pidController.setReference(armRadiansToEncoderRotations(targetPosition), 
             ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
       }
       {
 
       }
-        return Units.rotationsToRadians(armEncoder.getPosition() + ENCODER_OFFSET);
+        return Units.rotationsToRadians(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
     }
 
     /**
@@ -159,7 +155,7 @@ public class ArmSubsystem extends SubsystemBase{
     * @return equivilant encoder position, in rotations
     */
     static double armRadiansToEncoderRotations(double armRadians) {
-        return Units.radiansToRotations(armRadians) - ENCODER_OFFSET;
+        return Units.radiansToRotations(armRadians) - ArmConstants.ENCODER_OFFSET;
     }
 
     /**
@@ -208,6 +204,7 @@ public class ArmSubsystem extends SubsystemBase{
      * 
      */
     private void setArmVelocity(double armMoveControl){
+        targetPosition = null;
 
         double shootArmAxis = -MathUtil.clamp(armMoveControl, ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
         armLeader.set(shootArmAxis * ArmConstants.kArmRate);
@@ -226,6 +223,10 @@ public class ArmSubsystem extends SubsystemBase{
    
     public Command disableArm () {
         return this.startEnd(() -> this.setArmVelocity(0), () -> this.setArmVelocity(0));
+    }
+
+    public Command stopArm(){
+        return this.runOnce(()->this.stop());
     }
 
     public double getAbsolutePossition(){

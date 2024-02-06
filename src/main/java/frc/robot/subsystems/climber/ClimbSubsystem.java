@@ -8,33 +8,34 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase{
 
-    private final CANSparkMax climbMotor1 = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
-    private final CANSparkMax climbMotor2 = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
+    private final CANSparkMax climbLeader = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
+    private final CANSparkMax climbFollower = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
 
     public ClimbSubsystem(){
-        climbMotor1.setIdleMode(IdleMode.kBrake);
-        climbMotor2.setIdleMode(IdleMode.kBrake);
+        climbLeader.setIdleMode(IdleMode.kBrake);
+        climbFollower.setIdleMode(IdleMode.kBrake);
+
+        climbFollower.follow(climbLeader);
     }
     
     public void setClimb(double rate){
-        climbMotor1.set(rate);
-        climbMotor2.set(rate);
+        climbLeader.set(rate);
+    }
+    public Command holdCommand(){
+        return this.run(()->this.setClimb(ClimbConstants.kStaticArmRate));
     }
 
     public Command climbCommand(double rate){
-        return this.run(()->setClimb(rate));
+        if(rate>= ClimbConstants.kStaticArmRate){
+            return this.run(()->setClimb(rate));
+        } else{
+            return this.run(()->setClimb(ClimbConstants.kStaticArmRate));
+        }
     }
 }

@@ -78,6 +78,11 @@ public final class Constants {
     public static final double kMaxAccelerationRadPerSecSquared = 275;
     public static final double allowedErr= 1989843298;
 
+    public static final double ENCODER_OFFSET = -0.58342d;
+    public static final double GRAVITY_FF = 0.01;
+    public static final float LIMIT_BOTTOM = 0.5804f;
+    public static final float LIMIT_TOP = 0.8995f;
+
     public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
 
 
@@ -113,6 +118,8 @@ public final class Constants {
   public static final class ClimbConstants {
     public static final int kClimbSparkMaxCANID1 = 194887487; // change to real value
     public static final int kClimbSparkMaxCANID2 = 194887487; // change to real value
+
+    public static final double kStaticArmRate = 0;
   }
 
   public static final class DriveConstants {

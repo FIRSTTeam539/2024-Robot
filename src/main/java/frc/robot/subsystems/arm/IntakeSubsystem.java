@@ -13,14 +13,17 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class IntakeSubsystem extends SubsystemBase{
     private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.kIntakeSparkMaxCANID, MotorType.kBrushless);
-    private final CANSparkMax shooterMotor1 = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID1, MotorType.kBrushless);
-    private final CANSparkMax shooterMotor2 = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID2, MotorType.kBrushless);
+    private final CANSparkMax shooterLeader = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID1, MotorType.kBrushless);
+    private final CANSparkMax shooterFollower = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID2, MotorType.kBrushless);
     private final Encoder shooterEnc = new Encoder(IntakeConstants.kIntakeEncoderID[0], IntakeConstants.kIntakeEncoderID[1], IntakeConstants.kEncoderDirectionReversed);
 
     public IntakeSubsystem(){
         intakeMotor.setIdleMode(IdleMode.kBrake);
-        shooterMotor1.setIdleMode(IdleMode.kBrake);
-        shooterMotor2.setIdleMode(IdleMode.kBrake);
+        shooterLeader.setIdleMode(IdleMode.kBrake);
+        shooterFollower.setIdleMode(IdleMode.kBrake);
+
+        shooterFollower.follow(shooterLeader, false);
+
         shooterEnc.reset();
         shooterEnc.setDistancePerPulse(IntakeConstants.kShooterDistancePerPulse/2048);
 
@@ -31,8 +34,7 @@ public class IntakeSubsystem extends SubsystemBase{
     }
 
     public void setShooterSpeed(double speed){
-        shooterMotor1.set(speed);
-        shooterMotor2.set(speed);
+        shooterLeader.set(speed);
     }
 
     public Command intakeCommand(){
