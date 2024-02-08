@@ -18,6 +18,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.climber.ClimbSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.utils.utils;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.arm.IntakeSubsystem;
 import java.io.File;
@@ -28,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.utils.utils;
 
 import java.util.List;
 
@@ -74,7 +74,7 @@ public class RobotContainer {
   
     m_robotDrive.setDefaultCommand(!RobotBase.isSimulation() ? teleopDrive : simClosedFieldRel);
     m_robotArm.setDefaultCommand(m_robotArm.moveArm(MathUtil.applyDeadband(m_driverController1.getRightY(), OIConstants.RIGHT__Y_DEADBAND_2)));
-    m_robotClimb.setDefaultCommand(m_robotClimb.climbCommand(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), OIConstants.RIGHT_TRIGGER_DEADBAND_2)));
+    m_robotClimb.setDefaultCommand(m_robotClimb.climbCommand(MathUtil.applyDeadband(m_driverController1.getLeftX(), OIConstants.LEFT_X__DEADBAND_2)));
   }
 
   /**

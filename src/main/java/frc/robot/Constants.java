@@ -6,6 +6,7 @@ package frc.robot;
 import com.revrobotics.CANSparkBase.IdleMode;
 //import com.revrobotics.jni.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -122,6 +123,30 @@ public final class Constants {
     public static final double kStaticArmRate = 0;
   }
 
+  public static final class SHOOTER_LIMELIGHT {
+    public static final String NAME = "limelight-shooter";
+
+    public static final int HUMAN_PIPELINE_INDEX = 0;
+
+    public static final int GAMEPIECE_INDEX = 2;
+    public static final int AMP_PIPELINE_INDEX = 3;
+    public static final int SPEAKER_PIPELINE_INDEX = 4; // ids 4 and 7
+
+    public static final boolean IS_PRIMARY_STREAM = false;
+
+    public static final double MOUNTING_ANGLE_DEGREES = 0.0;
+    public static final double MOUNTING_HEIGHT_INCHES = 0.0;
+
+    public static final double DEFAULT_RETURN_VALUE = 0.0;
+
+    public static final double HEAD_ON_TOLERANCE = 0.0;
+
+    public static final double TARGET_WIDTH = 0.0;
+    public static final double TARGET_HEIGHT = 0.0;
+
+    public static final double TARGET_HEIGHT_FROM_FLOOR = 0.0;
+  }
+
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
@@ -138,6 +163,27 @@ public final class Constants {
     public static final double kTrackWidth = Units.inchesToMeters(24);
     // Distance between centers of right and left wheels on robot
     public static final double kWheelBase = Units.inchesToMeters(24);
+
+
+
+    //drive to abriltag
+    public static final PIDController APRILTAG_ROTATION_PID_CONTROLLER =
+        new PIDController(3, 0, 0.01);
+    public static final PIDController APRILTAG_X_TRANSLATION_PID_CONTROLLER =
+        new PIDController(0.05, 0, 0);
+    public static final PIDController APRILTAG_Y_TRANSLATION_PID_CONTROLLER =
+        new PIDController(0.2, 0, 0);
+
+    public static final double APRILTAG_X_TOLERANCE = 1.5;
+    public static final double APRILTAG_Y_TOLERANCE = 0.5;
+    public static final double APRILTAG_ROTATION_TOLERANCE = .025; // Radians
+    public static final double APRILTAG_TY_MAGIC_OFFSET = 12.5;
+
+    public static final double AMP_TX_SETPOINT = 0;
+    public static final double AMP_TY_SETPOINT = -10;
+    public static final double AMP_ROTATION_SETPOINT = Math.PI / 2;
+    public static final double AUTO_TRANSLATE_DEBOUNCE_SECONDS = 0.1;
+
   }
 
   /*public static final class ModuleConstants {
@@ -183,6 +229,7 @@ public final class Constants {
 
     //controller 1
     public static final double RIGHT__Y_DEADBAND_2 = 0.05;
+    public static final double LEFT_X__DEADBAND_2 = 0.1;
     public static final double RIGHT_TRIGGER_DEADBAND_2 = 0.05;
   }
 
