@@ -21,7 +21,7 @@ public class ClimbSubsystem extends SubsystemBase{
         climbLeader.setIdleMode(IdleMode.kBrake);
         climbFollower.setIdleMode(IdleMode.kBrake);
 
-        climbFollower.follow(climbLeader);
+        climbFollower.follow(climbLeader, true);
     }
     
     public void setClimb(double rate){
@@ -32,10 +32,9 @@ public class ClimbSubsystem extends SubsystemBase{
     }
 
     public Command climbCommand(double rate){
-        if(rate>= ClimbConstants.kStaticArmRate){
-            return this.run(()->setClimb(rate));
-        } else{
+        if (rate >= ClimbConstants.kStaticArmRate && rate <= 0) {
             return this.run(()->setClimb(ClimbConstants.kStaticArmRate));
         }
+        return this.run(()->setClimb(rate));
     }
 }
