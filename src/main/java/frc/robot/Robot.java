@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -12,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.io.File;
 import java.io.IOException;
 import swervelib.parser.SwerveParser;
-import frc.robot.subsystems.LimelightSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private Timer disabledTimer;
-  public static LimelightSubsystem shooterLimelight;
+  //public static LimelightSubsystem shooterLimelight;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -48,8 +48,13 @@ public class Robot extends TimedRobot {
   {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+            // Make sure you only configure port forwarding once in your robot code.
+        // Do not place these function calls in any periodic functions
+  for (int port = 5800; port <= 5807; port++) {
+      PortForwarder.add(port, "limelight.local", port);
+  }
     m_robotContainer = new RobotContainer();
-    shooterLimelight = new LimelightSubsystem();//Constants.SHOOTER_LIMELIGHT.NAME);
+    //shooterLimelight = new LimelightSubsystem();//Constants.SHOOTER_LIMELIGHT.NAME);
 
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 

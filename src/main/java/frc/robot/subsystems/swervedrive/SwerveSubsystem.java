@@ -36,6 +36,7 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import frc.robot.LimelightHelpers;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -90,6 +91,7 @@ public class SwerveSubsystem extends SubsystemBase
     //swerveDrive.swerveController.addSlewRateLimiters(); // possibly add later
 
     setupPathPlanner();
+    //swerveDrive.addVisionMeasurement(LimelightHelpers.getBotPose2d(), driveConversionFactor);
   }
 
   /**
