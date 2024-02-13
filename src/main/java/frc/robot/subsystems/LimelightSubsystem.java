@@ -59,19 +59,19 @@ public class LimelightSubsystem extends SubsystemBase {
    * Parses Limelight's JSON results dump into a LimelightResults Object
    */
   public LimelightResults getLatestResults() {
-    if (latestLimelightResults == null) {
+    /*if (latestLimelightResults == null) {
       if (mapper == null) {
         mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      }
+      }*/
 
-      try {
-        var json = limelightNetworkTable.getEntry("json").getString("");
-        var wrapper = mapper.readValue(json, LimelightResults.class);
+      //try {
+        //var json = limelightNetworkTable.getEntry("json").getString("");
+        //var wrapper = mapper.readValue(json, LimelightResults.class);
         latestLimelightResults = LimelightHelpers.getLatestResults(networkTableName);
-      } catch (JsonProcessingException e) {
+      /*} catch (JsonProcessingException e) {
         System.err.println("lljson error: " + e.getMessage());
-      }
-    }
+      }*/
+    //}
     return latestLimelightResults;
   }
   
