@@ -46,6 +46,7 @@ public class RobotContainer {
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
+  private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
   // The driver's controller
   CommandXboxController m_driverController0 = new CommandXboxController(OIConstants.kDriverControllerPort0);
   CommandXboxController m_driverController1 = new CommandXboxController(OIConstants.kDriverControllerPort1);
@@ -54,6 +55,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+     //m_robotDrive.addVisionMeasurement(m_robotLimelight);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands

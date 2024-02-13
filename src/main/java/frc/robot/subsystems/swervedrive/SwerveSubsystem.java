@@ -16,6 +16,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.Sendable;
@@ -36,6 +38,7 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.LimelightSubsystem;
 
@@ -47,7 +50,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   private final SwerveDrive swerveDrive;
 
-  //private final LimelightSubsystem = this
+  //private final LimelightSubsystem limelight;
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
@@ -58,8 +61,9 @@ public class SwerveSubsystem extends SubsystemBase
    *
    * @param directory Directory of swerve drive config files.
    */
-  public SwerveSubsystem(File directory)
+  public SwerveSubsystem(File directory)//, LimelightSubsystem limelight)
   {
+    //this.limelight =limelight;
     // Angle conversion factor is 360 / (GEAR RATIO * ENCODER RESOLUTION)
     //  In this case the gear ratio is 12.8 motor revolutions per wheel rotation.
     //  The encoder resolution per motor revolution is 1 per motor revolution.
@@ -92,7 +96,7 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setMotorIdleMode(true);
 
     //swerveDrive.swerveController.addSlewRateLimiters(); // possibly add later
-
+    
     setupPathPlanner();
     //swerveDrive.addVisionMeasurement(LimelightHelpers.getBotPose2d(), driveConversionFactor);
   }
@@ -138,9 +142,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public double getRobotSpeed(){
     return Math.sqrt(Math.pow(swerveDrive.getRobotVelocity().vxMetersPerSecond,2)+Math.pow(swerveDrive.getRobotVelocity().vyMetersPerSecond, 2));
-  }
-  public void addVisionMeasurement(LimelightSubsystem limelight){
-    swerveDrive.addVisionMeasurement(limelight.getBotPose2d(), limelight.getLatency());
   }
 
   /**
@@ -527,5 +528,8 @@ public class SwerveSubsystem extends SubsystemBase
   public void addFakeVisionReading()
   {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+  }
+  public void addVisionMeasurement(Pose2d visionMeasurement){//, double timeStampSeconds){
+    swerveDrive.addVisionMeasurement(visionMeasurement, Timer.getFPGATimestamp());
   }
 }
