@@ -41,7 +41,7 @@ public class ArmSubsystem extends SubsystemBase{
     //private final RelativeEncoder encoder2 = armFollower.getEncoder();
     private final SparkPIDController pidController = armLeader.getPIDController();
     //private final SparkPIDController m_pidController2 = armMotor2.getPIDController(); 
-    private final DutyCycleEncoder armEnc = new DutyCycleEncoder(ArmConstants.kEncoderID);
+    //private final DutyCycleEncoder armEnc = new DutyCycleEncoder(ArmConstants.kEncoderID);
     private final SparkAbsoluteEncoder armEncoder = armLeader.getAbsoluteEncoder(kDutyCycle);
     /*private final ArmFeedforward m_feedforward =
         new ArmFeedforward(
@@ -95,8 +95,8 @@ public class ArmSubsystem extends SubsystemBase{
         armMotor2.burnFlash();*/
 
         //arm enc ssoudl arlready be wrrred into sparkmax so this code will not be neccecary
-        armEnc.setDistancePerRotation(ArmConstants.kEncoderDistancePerRotation);
-        armEnc.setPositionOffset(ArmConstants.kArmOffsetRads);
+        //armEnc.setDistancePerRotation(ArmConstants.kEncoderDistancePerRotation);
+        //armEnc.setPositionOffset(ArmConstants.kArmOffsetRads);
     }
     @Override
     public void periodic() {
@@ -230,10 +230,7 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public double getAbsolutePossition(){
-        return armEnc.getAbsolutePosition();
+        return armEncoder.getPosition();
     }
 
-    public void resetEncoder(){
-        armEnc.reset();
-    }
 }
