@@ -106,13 +106,16 @@ public final class Constants {
 
     public static final int[] kIntakeEncoderID = {1,2};
     public static final boolean kEncoderDirectionReversed = false;
-    public static final  CounterBase.EncodingType kEncoderDecodingType = Encoder.EncodingType.k2X; 
+    public static final  CounterBase.EncodingType kEncoderDecodingType = Encoder.EncodingType.k4X; 
     public static final double shooterWheelRadius = Units.inchesToMeters(2); //in meter per seconds
     public static final double kShooterDistancePerPulse = 2*Math.PI*shooterWheelRadius; // in meters
+
+    public static int kBeamBreakSensorId = 0;
 
     public static final double kIntakeSpeed = 1;
     public static final double kShooterSpeedSpeaker = 1;
     public static final double kShooterSpeedAmp = 0.2;
+    public static final double kMaxShooterSpeedMetersPerSecond = 1;
 
   }
 
