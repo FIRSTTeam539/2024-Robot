@@ -130,23 +130,17 @@ public class ArmSubsystem extends SubsystemBase{
     public Command moveToPositionCommand(double radians){
         return this.run(()->this.moveToPosition(radians));
     }
-
+    
     /**
     * Gets the wrist position Zero is horizontal, up is positive
     * @return position in radians
     */
     public double getArmPosition() {
-        if (targetPosition != null) {
-            // Calculate feed forward based on angle to counteract gravity
-            double cosineScalar = Math.cos(getArmPosition());
-            double feedForward = ArmConstants.GRAVITY_FF * cosineScalar;
-            pidController.setReference(armRadiansToEncoderRotations(targetPosition), 
-            ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
-      }
-      {
-
-      }
         return Units.rotationsToRadians(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
+    }
+
+    public double getArmPositionDegrees(){
+        return Units.rotationsToDegrees(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
     }
 
     /**
@@ -165,36 +159,6 @@ public class ArmSubsystem extends SubsystemBase{
         targetPosition = null;
         armLeader.stopMotor();
     }
-  
-    /*
-    @Override
-    protected void useState(TrapezoidProfile.State setpoint) {
-        // Calculate the feedforward from the sepoint
-        double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
-        // Add the feedforward to the PID output to get the motor output
-        pidController.setReference(6, CANSparkMax.ControlType.kPosition);
-        //m_pidController2.setReference(6, CANSparkMax.ControlType.kPosition);
-        armMotor1.setSetpoint(
-            .PIDMode.kPosition, setpoint.position, feedforward / 12.0)
-        
-    }*/
-   /* ArmSubsystem (){
-        armMotor1.setIdleMode(IdleMode.kBrake);
-        armMotor2.setIdleMode(IdleMode.kBrake);
-        armEnc.reset();
-
-    }*/
-    /*
-    @Override
-    public void useOutput(double output, double setpoint) {
-        armMotor1.set(setpoint);
-        //m_ArmMotor.setVoltage(output + m_shooterFeedforward.calculate(setpoint));
-    }
-    @Override
-    public double getMeasurement() {
-      return armEnc.getDistance();
-    }*/
-  
 
         /**
      *sets arm to a possition
@@ -210,7 +174,7 @@ public class ArmSubsystem extends SubsystemBase{
         armLeader.set(shootArmAxis * ArmConstants.kArmRate);
         
         SmartDashboard.putNumber("arm power", shootArmAxis * ArmConstants.kArmRate); // put arm speed on Smartdash
-        SmartDashboard.putNumber("arm enc value", armEncoder.getPosition());  // put encoder value on SmartDash
+        SmartDashboard.putNumber("arm enc value", this.getArmPositionDegrees());  // put encoder value on SmartDash
     }
 
     public Command moveArm(double input){
@@ -227,10 +191,6 @@ public class ArmSubsystem extends SubsystemBase{
 
     public Command stopArm(){
         return this.runOnce(()->this.stop());
-    }
-
-    public double getAbsolutePossition(){
-        return armEncoder.getPosition();
     }
 
 }
