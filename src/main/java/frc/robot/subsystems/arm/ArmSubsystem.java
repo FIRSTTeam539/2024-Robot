@@ -102,13 +102,13 @@ public class ArmSubsystem extends SubsystemBase{
     public void periodic() {
       if (targetPosition != null) {
         // Calculate feed forward based on angle to counteract gravity
-        double cosineScalar = Math.cos(getArmPosition());
+        double cosineScalar = Math.cos(getArmPositionRadians());
         double feedForward = ArmConstants.GRAVITY_FF * cosineScalar;
         pidController.setReference(armRadiansToEncoderRotations(targetPosition), 
             ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
       }
   
-      SmartDashboard.putNumber("arm Position Radians", getArmPosition());
+      SmartDashboard.putNumber("arm Position Radians", getArmPositionRadians());
       SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());
     }
 
@@ -135,7 +135,7 @@ public class ArmSubsystem extends SubsystemBase{
     * Gets the wrist position Zero is horizontal, up is positive
     * @return position in radians
     */
-    public double getArmPosition() {
+    public double getArmPositionRadians() {
         return Units.rotationsToRadians(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
     }
 

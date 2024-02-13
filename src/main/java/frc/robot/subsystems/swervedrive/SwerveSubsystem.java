@@ -37,6 +37,7 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.LimelightHelpers;
+import frc.robot.subsystems.LimelightSubsystem;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -45,6 +46,8 @@ public class SwerveSubsystem extends SubsystemBase
    * Swerve drive object.
    */
   private final SwerveDrive swerveDrive;
+
+  //private final LimelightSubsystem = this
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
@@ -135,6 +138,9 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public double getRobotSpeed(){
     return Math.sqrt(Math.pow(swerveDrive.getRobotVelocity().vxMetersPerSecond,2)+Math.pow(swerveDrive.getRobotVelocity().vyMetersPerSecond, 2));
+  }
+  public void addVisionMeasurement(LimelightSubsystem limelight){
+    swerveDrive.addVisionMeasurement(limelight.getBotPose2d(), limelight.getLatency());
   }
 
   /**

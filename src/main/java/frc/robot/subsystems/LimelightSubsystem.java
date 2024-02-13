@@ -142,6 +142,12 @@ public class LimelightSubsystem extends SubsystemBase {
   public double getTA(){
     return LimelightHelpers.getTA(networkTableName);
   }
+  public double getAprilTagID(){
+    return LimelightHelpers.getFiducialID(networkTableName);
+  }
+  public double getLatency(){
+    return LimelightHelpers.getLatency_Pipeline(networkTableName)+LimelightHelpers.getLatency_Capture(networkTableName);
+  }
 
   /**
    * Turns the LEDS off and switches the camera mode to vision processor.
