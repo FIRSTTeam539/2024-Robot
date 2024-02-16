@@ -14,18 +14,29 @@ import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase{
 
-    private final CANSparkMax climbLeader = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
-    private final CANSparkMax climbFollower = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
+    private final CANSparkMax climbLeft = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
+    private final CANSparkMax climbRight = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANID1, MotorType.kBrushless);
 
     public ClimbSubsystem(){
-        climbLeader.setIdleMode(IdleMode.kBrake);
-        climbFollower.setIdleMode(IdleMode.kBrake);
+        climbLeft.setIdleMode(IdleMode.kBrake);
+        climbRight.setIdleMode(IdleMode.kBrake);
 
-        climbFollower.follow(climbLeader, true);
+        //climbRight.follow(climbLeft, true);
     }
     
     public void setClimb(double rate){
-        climbLeader.set(rate);
+        climbLeft.set(rate);
+        climbRight.set(rate);
+    }
+    public Command climbRightCommand(double rate){
+        return this.run(()->{
+            climbRight.set(rate);
+        });
+    }
+    public Command climbLeftCommand(double rate){
+        return this.run(()->{
+            climbLeft.set(rate);
+        });
     }
     public Command holdCommand(){
         return this.run(()->this.setClimb(ClimbConstants.kStaticArmRate));
