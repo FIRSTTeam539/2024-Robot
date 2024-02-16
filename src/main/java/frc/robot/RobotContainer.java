@@ -102,7 +102,9 @@ public class RobotContainer {
   }
   public void periodic(){
     if(m_robotLimelight.getTV()){
-      m_robotDrive.addVisionMeasurement(m_robotLimelight.getBotPose2d(), Timer.getFPGATimestamp());
+      if(Math.sqrt(Math.pow(m_robotDrive.getPose().getX()-m_robotLimelight.getBotPose2d().getX(), 2)+Math.pow(m_robotDrive.getPose().getY()-m_robotLimelight.getBotPose2d().getY(), 2))<1){
+        m_robotDrive.addVisionMeasurement(m_robotLimelight.getBotPose2d(), Timer.getFPGATimestamp());
+      }
     }
   }
   /**
