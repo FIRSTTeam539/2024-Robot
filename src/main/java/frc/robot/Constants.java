@@ -168,7 +168,7 @@ public final class Constants {
     // Distance between centers of right and left wheels on robot
     public static final double kWheelBase = Units.inchesToMeters(24);
 
-    public static final double allowedAutoAimErrorRadians = 0.1;
+    public static final double allowedAutoAimErrorRadians = Units.degreesToRadians(0.1);
 
 
 

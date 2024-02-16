@@ -139,12 +139,8 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public Command moveToPositionCommand(double radians){
-        return new FunctionalCommand(
-        ()->this.moveToPosition(radians), 
-        ()->this.moveToPosition(radians),
-        interrupted -> this.stop(), 
-        ()->this.atTargetPossition(),
-        this);
+        return run(() -> this.moveToPosition(radians))
+        .until(this::atTargetPossition);
     }
     
     /**

@@ -19,11 +19,11 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 
-public class turnToAprilTagCommand extends Command{
+public class TurnToAprilTagCommand extends Command{
     private final LimelightSubsystem limelight;
     private final SwerveSubsystem swerve;
 
-    public turnToAprilTagCommand(SwerveSubsystem swerve, LimelightSubsystem limelight){
+    public TurnToAprilTagCommand(SwerveSubsystem swerve, LimelightSubsystem limelight){
         this.limelight = limelight;
         this.swerve = swerve;
 
@@ -42,7 +42,6 @@ public class turnToAprilTagCommand extends Command{
         if (limelight.getTV()){
             swerve.drive(swerve.getTargetSpeeds(0 ,0, Rotation2d.fromDegrees(limelight.getTX())));   
         }
-
     }
 
     // Called once the command ends or is interrupted.

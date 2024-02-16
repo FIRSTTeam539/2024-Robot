@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -14,13 +14,13 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
-public class autoAimSpeakerCommand extends Command{
+public class AutoAimSpeakerCommand extends Command{
     private final LimelightSubsystem limelight;
     private final ArmSubsystem arm;
     private Command move;
 
 
-    public autoAimSpeakerCommand(ArmSubsystem arm, LimelightSubsystem limelight){
+    public AutoAimSpeakerCommand(ArmSubsystem arm, LimelightSubsystem limelight){
         this.limelight = limelight;
         this.arm = arm;
 
@@ -39,7 +39,6 @@ public class autoAimSpeakerCommand extends Command{
         if (limelight.getTV()){ 
              move = arm.moveToPositionCommand(-0.00008*Math.pow(limelight.getTY(),2)+0.00252*limelight.getTY()+0.4992);
         }
-
     }
 
     // Called once the command ends or is interrupted.
@@ -52,9 +51,9 @@ public class autoAimSpeakerCommand extends Command{
     @Override
     public boolean isFinished()
     {
-        if (!limelight.getTV()){
-            return true;
-        } else if (move.isFinished()){
+    if (!limelight.getTV()){
+        return true;
+    } else if (move.isFinished()){
             return true;
         }
         return false;
