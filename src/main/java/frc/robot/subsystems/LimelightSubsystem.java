@@ -135,6 +135,9 @@ public class LimelightSubsystem extends SubsystemBase {
   public double getTX(){
     return  LimelightHelpers.getTX(networkTableName);
   }
+  public boolean getTV(){
+    return LimelightHelpers.getTV(networkTableName);
+  }
 
   public double getTY(){
     return LimelightHelpers.getTY(networkTableName);

@@ -26,6 +26,7 @@ import java.io.File;
 import edu.wpi.first.wpilibj2.command.Commands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -99,7 +100,11 @@ public class RobotContainer {
     m_driverController1.leftBumper().onTrue(m_robotIntake.shootSpeakerCommand());
     //m_driverController0.rightBumper().onTrue(Commands.run(() -> Climb.Climb)));
   }
-
+  public void periodic(){
+    if(m_robotLimelight.getTV()){
+      m_robotDrive.addVisionMeasurement(m_robotLimelight.getBotPose2d(), Timer.getFPGATimestamp());
+    }
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
