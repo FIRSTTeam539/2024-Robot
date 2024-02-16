@@ -1,33 +1,30 @@
-package frc.robot.commands.swervedrive.auto;
+package frc.robot.commands;
 
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import swervelib.SwerveController;
-import swervelib.math.SwerveMath;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.Constants;
 
 import java.util.List;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
-
-public class turnToAprilTagCommand extends Command{
+public class autoAimSpeakerCommand extends Command{
     private final LimelightSubsystem limelight;
-    private final SwerveSubsystem swerve;
+    private final ArmSubsystem arm;
+    private Command move;
 
-    public turnToAprilTagCommand(SwerveSubsystem swerve, LimelightSubsystem limelight){
+
+    public autoAimSpeakerCommand(ArmSubsystem arm, LimelightSubsystem limelight){
         this.limelight = limelight;
-        this.swerve = swerve;
+        this.arm = arm;
 
-        addRequirements(swerve);
+        addRequirements(arm);
     }
 
     @Override
@@ -39,8 +36,8 @@ public class turnToAprilTagCommand extends Command{
     @Override
     public void execute()
     {
-        if (limelight.getTV()){
-            swerve.drive(swerve.getTargetSpeeds(0 ,0, Rotation2d.fromDegrees(limelight.getTX())));   
+        if (limelight.getTV()){ 
+             move = arm.moveToPositionCommand(-0.00008*Math.pow(limelight.getTY(),2)+0.00252*limelight.getTY()+0.4992);
         }
 
     }
@@ -57,7 +54,7 @@ public class turnToAprilTagCommand extends Command{
     {
         if (!limelight.getTV()){
             return true;
-        } else if (Math.abs(limelight.getTX())<=DriveConstants.allowedAutoAimErrorRadians){
+        } else if (move.isFinished()){
             return true;
         }
         return false;

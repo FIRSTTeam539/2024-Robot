@@ -18,6 +18,7 @@ import static com.revrobotics.CANSparkBase.SoftLimitDirection.kReverse;
 import static com.revrobotics.SparkLimitSwitch.Type.kNormallyOpen;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -112,7 +113,7 @@ public class ArmSubsystem extends SubsystemBase{
       SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());
     }
 
-    public void moveArmAtSpeed(double speed){
+    private void moveArmAtSpeed(double speed){
         targetPosition = null;
         armLeader.set(speed);
     }
@@ -122,13 +123,28 @@ public class ArmSubsystem extends SubsystemBase{
    * will continue to move to this position, and hold it until another method is called.
    * @param radians position in radians
    */
-    public void moveToPosition(double radians) {
+    private void moveToPosition(double radians) {
         // Set the target position, but move in execute() so feed forward keeps updating
         targetPosition = radians;
     }
 
+    public boolean atTargetPossition(){
+        if (targetPosition == null){
+            return false;
+        }
+        if (Math.abs(targetPosition-this.getArmPositionRadians())<=ArmConstants.allowedErr){
+            return true;
+        }
+        return false;
+    }
+
     public Command moveToPositionCommand(double radians){
-        return this.run(()->this.moveToPosition(radians));
+        return new FunctionalCommand(
+        ()->this.moveToPosition(radians), 
+        ()->this.moveToPosition(radians),
+        interrupted -> this.stop(), 
+        ()->this.atTargetPossition(),
+        this);
     }
     
     /**
@@ -137,6 +153,9 @@ public class ArmSubsystem extends SubsystemBase{
     */
     public double getArmPositionRadians() {
         return Units.rotationsToRadians(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
+    }
+    public double getArmPositionTargetRadians(){
+        return targetPosition;
     }
 
     public double getArmPositionDegrees(){

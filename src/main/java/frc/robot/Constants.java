@@ -69,6 +69,7 @@ public final class Constants {
     public static final double kIz = 0;
     public static final double kFF = 0.000156;
 
+
     public static final double kMinOutput = -1;
     public static final double kMaxOutput = 1;
     public static final double maxRPM = 5700;
@@ -77,7 +78,7 @@ public final class Constants {
     public static final double maxAcc = 1500;
     public static final double kMaxVelocityRadPerSecond =10; //set latter
     public static final double kMaxAccelerationRadPerSecSquared = 275;
-    public static final double allowedErr= 1989843298;
+    public static final double allowedErr= Units.degreesToRadians(0.1);//change
 
     public static final double ENCODER_OFFSET = -0.58342d;
     public static final double GRAVITY_FF = 0.01;
@@ -166,6 +167,8 @@ public final class Constants {
     public static final double kTrackWidth = Units.inchesToMeters(24);
     // Distance between centers of right and left wheels on robot
     public static final double kWheelBase = Units.inchesToMeters(24);
+
+    public static final double allowedAutoAimErrorRadians = 0.1;
 
 
 
