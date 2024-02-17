@@ -73,6 +73,7 @@ public class AutoShootSpeakerCommand extends Command{
     @Override
     public boolean isFinished()
     {
+        //add condition if done
         return false;
     }
 }

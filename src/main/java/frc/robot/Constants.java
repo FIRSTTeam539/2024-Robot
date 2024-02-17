@@ -51,9 +51,9 @@ public final class Constants {
 
 
   public static final class ArmConstants{
-    public static final int kArmSparkMaxCANID1 = 128; // reconfigure to actual values
-    public static final int kArmSparkMaxCANID2 = 1170000;//set to value
-    public static final int kEncoderID = 1000000; //adjust to actual value
+    public static final int kArmSparkMaxCANID1 = 15; // reconfigure to actual values
+    public static final int kArmSparkMaxCANID2 = 16;//set to value
+    //public static final int kEncoderID = 1000000; //adjust to actual value
 
     public static final double kSVolts = 0; //smallest value to make arm move miscule amount - static movment amount
     public static final double kGVolts = 0;
@@ -85,7 +85,7 @@ public final class Constants {
     public static final float LIMIT_BOTTOM = 0.5804f;
     public static final float LIMIT_TOP = 0.8995f;
 
-    public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
+   // public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
 
 
     public static final double kArmRate = 0.2;
@@ -121,8 +121,8 @@ public final class Constants {
   }
 
   public static final class ClimbConstants {
-    public static final int kClimbSparkMaxCANID1 = 194887487; // change to real value
-    public static final int kClimbSparkMaxCANID2 = 194887487; // change to real value
+    public static final int kClimbSparkMaxCANIDLeft = 13; // change to real value
+    public static final int kClimbSparkMaxCANIDRight = 14; // change to real value
 
     public static final double kStaticArmRate = 0;
   }
