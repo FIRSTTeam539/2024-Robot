@@ -60,31 +60,31 @@ public class ArmSubsystem extends SubsystemBase{
             ArmConstants.kMaxVelocityRadPerSecond, ArmConstants.kMaxAccelerationRadPerSecSquared),
         ArmConstants.kArmOffsetRads);*/
         //super(new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD));
-        pidController.setFeedbackDevice(armEncoder);
-        pidController.setP(ArmConstants.kP);
-        pidController.setI(ArmConstants.kI);
-        pidController.setD(ArmConstants.kD);
-        pidController.setIZone(ArmConstants.kIz);
-        pidController.setFF(ArmConstants.kFF);
-        pidController.setOutputRange(ArmConstants.kMinOutput, ArmConstants.kMaxOutput);
+        // pidController.setFeedbackDevice(armEncoder);
+        // pidController.setP(ArmConstants.kP);
+        // pidController.setI(ArmConstants.kI);
+        // pidController.setD(ArmConstants.kD);
+        // pidController.setIZone(ArmConstants.kIz);
+        // pidController.setFF(ArmConstants.kFF);
+        // pidController.setOutputRange(ArmConstants.kMinOutput, ArmConstants.kMaxOutput);
 
-        pidController.setSmartMotionMaxVelocity(ArmConstants.maxVel, SMART_MOTION_SLOT);
-        pidController.setSmartMotionMinOutputVelocity(ArmConstants.minVel, SMART_MOTION_SLOT);
-        pidController.setSmartMotionMaxAccel(ArmConstants.maxAcc, SMART_MOTION_SLOT);
-        pidController.setSmartMotionAllowedClosedLoopError(ArmConstants.allowedErr, SMART_MOTION_SLOT);
+        // pidController.setSmartMotionMaxVelocity(ArmConstants.maxVel, SMART_MOTION_SLOT);
+        // pidController.setSmartMotionMinOutputVelocity(ArmConstants.minVel, SMART_MOTION_SLOT);
+        // pidController.setSmartMotionMaxAccel(ArmConstants.maxAcc, SMART_MOTION_SLOT);
+        // pidController.setSmartMotionAllowedClosedLoopError(ArmConstants.allowedErr, SMART_MOTION_SLOT);
 
-        armLeader.enableVoltageCompensation(12);
-        armLeader.setSmartCurrentLimit(20);
-        armFollower.setSmartCurrentLimit(20);
+        // // armLeader.enableVoltageCompensation(12);
+        // // armLeader.setSmartCurrentLimit(20);
+        // // armFollower.setSmartCurrentLimit(20);
         
-        armLeader.setSoftLimit(kForward, ArmConstants.LIMIT_TOP);
-        armLeader.setSoftLimit(kReverse, ArmConstants.LIMIT_BOTTOM);
-        armLeader.enableSoftLimit(kForward, true);
-        armLeader.enableSoftLimit(kReverse, true);
+        // armLeader.setSoftLimit(kForward, ArmConstants.LIMIT_TOP);
+        // armLeader.setSoftLimit(kReverse, ArmConstants.LIMIT_BOTTOM);
+        // armLeader.enableSoftLimit(kForward, true);
+        // armLeader.enableSoftLimit(kReverse, true);
 
-        // Disable limit switches, we don't have any
-        armLeader.getForwardLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
-        armLeader.getReverseLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
+        // // Disable limit switches, we don't have any
+        // armLeader.getForwardLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
+        // armLeader.getReverseLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
 
         armFollower.follow(armLeader, true);
 
@@ -101,7 +101,7 @@ public class ArmSubsystem extends SubsystemBase{
     }
     @Override
     public void periodic() {
-      if (targetPosition != null) {
+      /*if (targetPosition != null) {
         // Calculate feed forward based on angle to counteract gravity
         double cosineScalar = Math.cos(getArmPositionRadians());
         double feedForward = ArmConstants.GRAVITY_FF * cosineScalar;
@@ -110,12 +110,13 @@ public class ArmSubsystem extends SubsystemBase{
       }
   
       SmartDashboard.putNumber("arm Position Radians", getArmPositionRadians());
-      SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());
+      SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());*/
     }
 
-    private void moveArmAtSpeed(double speed){
-        targetPosition = null;
+    public void moveArmAtSpeed(double speed){
+        //targetPosition = null;
         armLeader.set(speed);
+        armFollower.set(speed);
     }
 
     /**
@@ -193,7 +194,11 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public Command moveArm(double input){
-        return this.run(() ->this.setArmVelocity(input));
+        if (input <= 0){
+            return this.run(() ->this.moveArmAtSpeed(input * 0.6));
+        } else {
+            return this.run(() ->this.moveArmAtSpeed(input * 0.6));
+        }
     }
 
     /*public Command setArmPos(double pos){

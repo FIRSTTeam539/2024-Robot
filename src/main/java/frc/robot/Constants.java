@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.pathplanner.lib.util.PIDConstants;
 import com.revrobotics.CANSparkBase.IdleMode;
 //import com.revrobotics.jni.CANSparkMax.IdleMode;
 
@@ -48,6 +49,12 @@ public final class Constants {
     public static final double MAX_SPEED        = 4;
     public static final double MAX_ACCELERATION = 2;
   }
+   public static final class AutonConstants
+  {
+
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
+    public static final PIDConstants ANGLE_PID   = new PIDConstants(0.4, 0, 0.01);
+  }
 
 
   public static final class ArmConstants{
@@ -88,16 +95,16 @@ public final class Constants {
    // public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
 
 
-    public static final double kArmRate = 0.2;
+    public static final double kArmRate = 0.5;
 
     //min/ max value of arm
-    public static final double kMaxDownSpeed= -0.7;
-    public static final double kMaxUpSpeed= 0.7;
+    public static final double kMaxDownSpeed= -0.5;
+    public static final double kMaxUpSpeed= 0.5;
     //set value of deadzone
 
 
   //move arm power
-  public static final double ARM_OUTPUT_POWER = 0.5;
+  public static final double ARM_OUTPUT_POWER = 0.7;
   } 
 
   public static final class IntakeConstants{

@@ -15,7 +15,7 @@ import frc.robot.Constants.ClimbConstants;
 public class ClimbSubsystem extends SubsystemBase{
 
     private final CANSparkMax climbLeft = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANIDLeft, MotorType.kBrushless);
-    private final CANSparkMax climbRight = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANIDLeft, MotorType.kBrushless);
+    private final CANSparkMax climbRight = new CANSparkMax(ClimbConstants.kClimbSparkMaxCANIDRight, MotorType.kBrushless);
 
     public ClimbSubsystem(){
         climbLeft.setIdleMode(IdleMode.kBrake);

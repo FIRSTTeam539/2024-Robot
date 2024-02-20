@@ -45,9 +45,9 @@ public class RobotContainer {
   private final SwerveSubsystem m_robotDrive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
   "swerve"));
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
-  private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
-  private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
-  private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
+  //private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  //private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
+  //private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
   // The driver's controller
   CommandXboxController m_driverController0 = new CommandXboxController(OIConstants.kDriverControllerPort0);
   CommandXboxController m_driverController1 = new CommandXboxController(OIConstants.kDriverControllerPort1);
@@ -77,8 +77,8 @@ public class RobotContainer {
       ()->true);
   
     m_robotDrive.setDefaultCommand(!RobotBase.isSimulation() ? teleopDrive : simClosedFieldRel);
-    m_robotArm.setDefaultCommand(m_robotArm.moveArm(MathUtil.applyDeadband(m_driverController1.getRightY(), OIConstants.RIGHT__Y_DEADBAND_2)));
-    m_robotClimb.setDefaultCommand(m_robotClimb.climbCommand(MathUtil.applyDeadband(m_driverController1.getLeftX(), OIConstants.LEFT_X__DEADBAND_2)));
+    //m_robotArm.setDefaultCommand(Commands.run((()->m_robotArm.moveArmAtSpeed(MathUtil.applyDeadband(m_driverController1.getRightY(), OIConstants.RIGHT__Y_DEADBAND_2))), m_robotArm));
+    //m_robotClimb.setDefaultCommand(m_robotClimb.climbCommand(MathUtil.applyDeadband(m_driverController1.getLeftX(), OIConstants.LEFT_X__DEADBAND_2)));
   }
 
   /**
@@ -94,19 +94,20 @@ public class RobotContainer {
     //when the right stick is pushed down, moves wheels in x formation to stop all movement
     m_driverController0.x().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
     m_driverController0.y().onTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
-
-    m_driverController1.leftTrigger().onTrue(m_robotIntake.intakeCommand());
-    m_driverController1.rightBumper().onTrue(m_robotIntake.shootSpeakerCommand());
-    m_driverController1.leftBumper().onTrue(m_robotIntake.shootSpeakerCommand());
+    m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(0.6)), m_robotArm));
+    m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(-0.6)), m_robotArm));
+    //m_driverController1.leftTrigger().onTrue(m_robotIntake.intakeCommand());
+    //m_driverController1.rightBumper().onTrue(m_robotIntake.shootSpeakerCommand());
+    //m_driverController1.leftBumper().onTrue(m_robotIntake.shootSpeakerCommand());
     //m_driverController0.rightBumper().onTrue(Commands.run(() -> Climb.Climb)));
   }
-  public void periodic(){
+  /*public void periodic(){
     if(m_robotLimelight.getTV()){
       if(Math.sqrt(Math.pow(m_robotDrive.getPose().getX()-m_robotLimelight.getBotPose2d().getX(), 2)+Math.pow(m_robotDrive.getPose().getY()-m_robotLimelight.getBotPose2d().getY(), 2))<1){
         m_robotDrive.addVisionMeasurement(m_robotLimelight.getBotPose2d(), Timer.getFPGATimestamp());
       }
     }
-  }
+  }*/
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -115,7 +116,7 @@ public class RobotContainer {
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return m_robotDrive.getAutonomousCommand("New Path", true);
+    return m_robotDrive.getAutonomousCommand("New Auto");
   }
   
 
