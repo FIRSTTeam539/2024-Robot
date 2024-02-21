@@ -37,7 +37,7 @@ public class AutoAimSpeakerCommand extends Command{
     public void execute()
     {
         if (limelight.getTV()){ 
-             move = arm.moveToPositionCommand(-0.00008*Math.pow(limelight.getTY(),2)+0.00252*limelight.getTY()+0.4992);
+            // move = arm.moveToPositionCommand(-0.00008*Math.pow(limelight.getTY(),2)+0.00252*limelight.getTY()+0.4992);
         }
     }
 

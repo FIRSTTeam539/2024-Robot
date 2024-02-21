@@ -49,7 +49,7 @@ public class ArmSubsystem extends SubsystemBase{
             ArmConstants.kSVolts, ArmConstants.kGVolts,
             ArmConstants.kVVoltSecondPerRad, ArmConstants.kAVoltSecondSquaredPerRad);*/
 
-    private Double targetPosition = null;
+    //private Double targetPosition = null;
     /**
      * 
      */
@@ -60,31 +60,31 @@ public class ArmSubsystem extends SubsystemBase{
             ArmConstants.kMaxVelocityRadPerSecond, ArmConstants.kMaxAccelerationRadPerSecSquared),
         ArmConstants.kArmOffsetRads);*/
         //super(new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD));
-        // pidController.setFeedbackDevice(armEncoder);
-        // pidController.setP(ArmConstants.kP);
-        // pidController.setI(ArmConstants.kI);
-        // pidController.setD(ArmConstants.kD);
-        // pidController.setIZone(ArmConstants.kIz);
-        // pidController.setFF(ArmConstants.kFF);
-        // pidController.setOutputRange(ArmConstants.kMinOutput, ArmConstants.kMaxOutput);
+        /*pidController.setFeedbackDevice(armEncoder);
+        pidController.setP(ArmConstants.kP);
+        pidController.setI(ArmConstants.kI);
+        pidController.setD(ArmConstants.kD);
+        pidController.setIZone(ArmConstants.kIz);
+        pidController.setFF(ArmConstants.kFF);
+        pidController.setOutputRange(ArmConstants.kMinOutput, ArmConstants.kMaxOutput);
 
-        // pidController.setSmartMotionMaxVelocity(ArmConstants.maxVel, SMART_MOTION_SLOT);
-        // pidController.setSmartMotionMinOutputVelocity(ArmConstants.minVel, SMART_MOTION_SLOT);
-        // pidController.setSmartMotionMaxAccel(ArmConstants.maxAcc, SMART_MOTION_SLOT);
-        // pidController.setSmartMotionAllowedClosedLoopError(ArmConstants.allowedErr, SMART_MOTION_SLOT);
+        pidController.setSmartMotionMaxVelocity(ArmConstants.maxVel, SMART_MOTION_SLOT);
+        pidController.setSmartMotionMinOutputVelocity(ArmConstants.minVel, SMART_MOTION_SLOT);
+        pidController.setSmartMotionMaxAccel(ArmConstants.maxAcc, SMART_MOTION_SLOT);
+        pidController.setSmartMotionAllowedClosedLoopError(ArmConstants.allowedErr, SMART_MOTION_SLOT);
 
-        // // armLeader.enableVoltageCompensation(12);
-        // // armLeader.setSmartCurrentLimit(20);
-        // // armFollower.setSmartCurrentLimit(20);
+        // armLeader.enableVoltageCompensation(12);
+        // armLeader.setSmartCurrentLimit(20);
+        // armFollower.setSmartCurrentLimit(20);
         
-        // armLeader.setSoftLimit(kForward, ArmConstants.LIMIT_TOP);
-        // armLeader.setSoftLimit(kReverse, ArmConstants.LIMIT_BOTTOM);
-        // armLeader.enableSoftLimit(kForward, true);
-        // armLeader.enableSoftLimit(kReverse, true);
+        armLeader.setSoftLimit(kForward, ArmConstants.LIMIT_TOP);
+        armLeader.setSoftLimit(kReverse, ArmConstants.LIMIT_BOTTOM);
+        armLeader.enableSoftLimit(kForward, true);
+        armLeader.enableSoftLimit(kReverse, true);
 
-        // // Disable limit switches, we don't have any
-        // armLeader.getForwardLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
-        // armLeader.getReverseLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
+        // Disable limit switches, we don't have any
+        armLeader.getForwardLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
+        armLeader.getReverseLimitSwitch(kNormallyOpen).enableLimitSwitch(false);*/
 
         armFollower.follow(armLeader, true);
 
@@ -117,6 +117,7 @@ public class ArmSubsystem extends SubsystemBase{
         //targetPosition = null;
         armLeader.set(speed);
         armFollower.set(speed);
+        System.out.println("this");
     }
 
     /**
@@ -124,12 +125,12 @@ public class ArmSubsystem extends SubsystemBase{
    * will continue to move to this position, and hold it until another method is called.
    * @param radians position in radians
    */
-    private void moveToPosition(double radians) {
+    /*private void moveToPosition(double radians) {
         // Set the target position, but move in execute() so feed forward keeps updating
         targetPosition = radians;
-    }
+    }*/
 
-    public boolean atTargetPossition(){
+    /*public boolean atTargetPossition(){
         if (targetPosition == null){
             return false;
         }
@@ -137,12 +138,21 @@ public class ArmSubsystem extends SubsystemBase{
             return true;
         }
         return false;
-    }
+    }*/
 
-    public Command moveToPositionCommand(double radians){
-        return run(() -> this.moveToPosition(radians))
-        .until(this::atTargetPossition);
-    }
+    /*public Command moveToPositionCommand(double targetpos){
+        return this.run(()->{
+            // Calculate feed forward based on angle to counteract gravity
+            double cosineScalar = Math.cos(getArmPositionRadians());
+            double feedForward = ArmConstants.GRAVITY_FF * cosineScalar;
+            pidController.setReference(armRadiansToEncoderRotations(targetpos), 
+            ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
+  
+      SmartDashboard.putNumber("arm Position Radians", getArmPositionRadians());
+      SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());});
+        //return run(() -> this.moveToPosition(radians))
+        //.until(this::atTargetPossition);
+    }*/
     
     /**
     * Gets the wrist position Zero is horizontal, up is positive
@@ -151,9 +161,9 @@ public class ArmSubsystem extends SubsystemBase{
     public double getArmPositionRadians() {
         return Units.rotationsToRadians(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
     }
-    public double getArmPositionTargetRadians(){
+    /*public double getArmPositionTargetRadians(){
         return targetPosition;
-    }
+    }*/
 
     public double getArmPositionDegrees(){
         return Units.rotationsToDegrees(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
@@ -172,7 +182,7 @@ public class ArmSubsystem extends SubsystemBase{
     * Stop the elevator
     */
     public void stop() {
-        targetPosition = null;
+        //targetPosition = null;
         armLeader.stopMotor();
     }
 
@@ -183,10 +193,10 @@ public class ArmSubsystem extends SubsystemBase{
      *
      * 
      */
-    private void setArmVelocity(double armMoveControl){
-        targetPosition = null;
+    public void setArmVelocity(double armMoveControl){
+        //targetPosition = null;
 
-        double shootArmAxis = -MathUtil.clamp(armMoveControl, ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
+        double shootArmAxis = -MathUtil.clamp(armMoveControl+ArmConstants.holdArmPower, ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
         armLeader.set(shootArmAxis * ArmConstants.kArmRate);
         
         SmartDashboard.putNumber("arm power", shootArmAxis * ArmConstants.kArmRate); // put arm speed on Smartdash

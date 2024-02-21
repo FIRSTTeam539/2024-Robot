@@ -46,7 +46,7 @@ public class RobotContainer {
   "swerve"));
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
   //private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
-  //private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
+  private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
   //private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
   // The driver's controller
   CommandXboxController m_driverController0 = new CommandXboxController(OIConstants.kDriverControllerPort0);
@@ -77,8 +77,11 @@ public class RobotContainer {
       ()->true);
   
     m_robotDrive.setDefaultCommand(!RobotBase.isSimulation() ? teleopDrive : simClosedFieldRel);
+    m_robotClimb.setDefaultCommand(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2)*0.2, MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.2), m_robotClimb)); // works
+    //m_robotArm.setDefaultCommand(Commands.run(()->m_robotArm.moveArmAtSpeed(MathUtil.applyDeadband(m_driverController1.getRightY(),0.2)*0.5),m_robotArm));
+
     //m_robotArm.setDefaultCommand(Commands.run((()->m_robotArm.moveArmAtSpeed(MathUtil.applyDeadband(m_driverController1.getRightY(), OIConstants.RIGHT__Y_DEADBAND_2))), m_robotArm));
-    //m_robotClimb.setDefaultCommand(m_robotClimb.climbCommand(MathUtil.applyDeadband(m_driverController1.getLeftX(), OIConstants.LEFT_X__DEADBAND_2)));
+    //m_robotClimb.setDefaultCommand(m_robotClimb.climbCommand(MathUtil.applyDeadband(m_driverController1.getLeftY(), OIConstants.LEFT_X__DEADBAND_2)));
   }
 
   /**
@@ -94,8 +97,19 @@ public class RobotContainer {
     //when the right stick is pushed down, moves wheels in x formation to stop all movement
     m_driverController0.x().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
     m_driverController0.y().onTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
-    m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(0.6)), m_robotArm));
-    m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(-0.6)), m_robotArm));
+    //m_driverController1.a().onTrue(Commands.run(()->System.out.println("hi")));
+    //System.out.println("yay");
+    m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2)*0.6, MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
+    //m_driverController1.x().whileTrue(m_robotClimb.climbLeftCommand(0.2));
+    //m_driverController1.b().whileTrue(m_robotClimb.climbRightCommand(0.2));
+    //m_driverController1.y().whileTrue(m_robotClimb.climbRightCommand(-0.2));
+    //m_driverController1.leftBumper().whileTrue(m_robotClimb.climbLeftCommand(-0.2));
+    //m_driverController1.a().onTrue(m_robotArm.disableArm());
+    //m_driverController1.x().whileTrue(m_robotArm.moveArm(-0.5));
+    //m_driverController1.b().whileTrue(m_robotArm.moveArm(0.1));
+
+    //m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(0.6)), m_robotArm));
+    //m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(-0.6)), m_robotArm));
     //m_driverController1.leftTrigger().onTrue(m_robotIntake.intakeCommand());
     //m_driverController1.rightBumper().onTrue(m_robotIntake.shootSpeakerCommand());
     //m_driverController1.leftBumper().onTrue(m_robotIntake.shootSpeakerCommand());

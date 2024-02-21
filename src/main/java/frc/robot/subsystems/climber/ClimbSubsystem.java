@@ -26,11 +26,15 @@ public class ClimbSubsystem extends SubsystemBase{
     
     public void setClimb(double rate){
         climbLeft.set(rate);
-        climbRight.set(rate);
+        climbRight.set(-rate);
+    }
+    public void setDualClimb(double lrate, double rrate){
+        climbLeft.set(lrate);
+        climbRight.set(-rrate);
     }
     public Command climbRightCommand(double rate){
         return this.run(()->{
-            climbRight.set(rate);
+            climbRight.set(-rate);
         });
     }
     public Command climbLeftCommand(double rate){
@@ -41,11 +45,17 @@ public class ClimbSubsystem extends SubsystemBase{
     public Command holdCommand(){
         return this.run(()->this.setClimb(ClimbConstants.kStaticArmRate));
     }
+    public Command stop(){
+        return this.startEnd(()->setClimb(0), ()->setClimb(0));
+    }
 
     public Command climbCommand(double rate){
-        if (rate >= ClimbConstants.kStaticArmRate && rate <= 0) {
+        /*if (rate >= ClimbConstants.kStaticArmRate && rate <= 0) {
             return this.run(()->setClimb(ClimbConstants.kStaticArmRate));
-        }
-        return this.run(()->setClimb(rate));
+        }*/
+        return this.run(()->{
+            climbLeft.set(rate);
+            climbRight.set(-rate);
+        });
     }
 }
