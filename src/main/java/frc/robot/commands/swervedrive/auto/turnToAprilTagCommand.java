@@ -40,7 +40,7 @@ public class TurnToAprilTagCommand extends Command{
     public void execute()
     {
         if (limelight.getTV()){
-            swerve.drive(swerve.getTargetSpeeds(0 ,0, Rotation2d.fromDegrees(limelight.getTX())));   
+            swerve.drive(swerve.getTargetSpeeds(0 ,0, Rotation2d.fromDegrees(-limelight.getTX())));   
         }
     }
 

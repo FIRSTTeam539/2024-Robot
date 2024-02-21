@@ -85,7 +85,7 @@ public class ArmSubsystem extends SubsystemBase{
         // Disable limit switches, we don't have any
         armLeader.getForwardLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
         armLeader.getReverseLimitSwitch(kNormallyOpen).enableLimitSwitch(false);*/
-
+        //armLeader.setSoftLimit(kReverse, SMART_MOTION_SLOT)
         armFollower.follow(armLeader, true);
 
         armLeader.setIdleMode(IdleMode.kBrake);
@@ -101,6 +101,8 @@ public class ArmSubsystem extends SubsystemBase{
     }
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("arm Position Radians", getArmPositionRadians());
+        SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());
       /*if (targetPosition != null) {
         // Calculate feed forward based on angle to counteract gravity
         double cosineScalar = Math.cos(getArmPositionRadians());
@@ -117,7 +119,7 @@ public class ArmSubsystem extends SubsystemBase{
         //targetPosition = null;
         armLeader.set(speed);
         armFollower.set(speed);
-        System.out.println("this");
+        //System.out.println("this");
     }
 
     /**
@@ -198,6 +200,7 @@ public class ArmSubsystem extends SubsystemBase{
 
         double shootArmAxis = -MathUtil.clamp(armMoveControl+ArmConstants.holdArmPower, ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
         armLeader.set(shootArmAxis * ArmConstants.kArmRate);
+        armFollower.set(armMoveControl);
         
         SmartDashboard.putNumber("arm power", shootArmAxis * ArmConstants.kArmRate); // put arm speed on Smartdash
         SmartDashboard.putNumber("arm enc value", this.getArmPositionDegrees());  // put encoder value on SmartDash

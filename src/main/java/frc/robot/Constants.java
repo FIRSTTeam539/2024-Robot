@@ -74,7 +74,7 @@ public final class Constants {
     public static final double kD = 0;
     public static final double kF = 0;
     public static final double kIz = 0;
-    public static final double kFF = 0.01;
+    public static final double kFF = 1.00;
 
     public static final double holdArmPower = 0.1;
 
@@ -91,8 +91,8 @@ public final class Constants {
 
     public static final double ENCODER_OFFSET = -0.58342d;
     public static final double GRAVITY_FF = 0.01;
-    public static final float LIMIT_BOTTOM = 0.5804f;
-    public static final float LIMIT_TOP = 0.8995f;
+    public static final float LIMIT_BOTTOM = 0f;
+    public static final float LIMIT_TOP = (float) (2*Math.PI);
 
    // public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
 
