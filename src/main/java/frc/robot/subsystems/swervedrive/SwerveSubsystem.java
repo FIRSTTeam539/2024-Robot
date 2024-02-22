@@ -10,11 +10,14 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants.Auton;
 import frc.robot.Constants.AutonConstants;
+import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -497,6 +500,40 @@ public class SwerveSubsystem extends SubsystemBase
   {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
+  
+  // public void addVisionMeasurement(LimelightSubsystem limelight, double timestamp){
+  //   if (limelight.getTV()) {
+  //     double xyStds;
+  //     double degStds;
+  //     // multiple targets detected
+  //     /*if (m_visionSystem.getNumberOfTargetsVisible() >= 2) {
+  //       xyStds = 0.5;
+  //       degStds = 6;
+  //     }
+  //     // 1 target with large area and close to estimated pose
+  //     else if (m_visionSystem.getBestTargetArea() > 0.8 && poseDifference < 0.5) {
+  //       xyStds = 1.0;
+  //       degStds = 12;
+  //     }
+  //     // 1 target farther away and estimated pose is close
+  //     else if (m_visionSystem.getBestTargetArea() > 0.1 && poseDifference < 0.3) {
+  //       xyStds = 2.0;
+  //       degStds = 30;
+  //     }
+  //     // conditions don't match to add a vision measurement
+  //     else {
+  //       return;
+  //     }*/
+  //     if(Math.sqrt(Math.pow(this.getPose().getX()-limelight.getBotPose2d().getX(), 2)+Math.pow(this.getPose().getY()-limelight.getBotPose2d().getY(), 2))<0.5){
+  //       xyStds = 2.0;
+  //       degStds = 30;
+  //     } else  {
+  //       return;
+  //     }
+      
+  //   swerveDrive.addVisionMeasurement(limelight.getBotPose2d_wpiBlue(), timestamp-limelight.getLatency(), VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds)));
+  //   }
+  // }
 }
 
 // /* // Copyright (c) FIRST and other WPILib contributors.

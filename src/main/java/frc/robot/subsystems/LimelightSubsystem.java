@@ -24,6 +24,7 @@ import frc.robot.LimelightHelpers.LimelightTarget_Detector;
 import frc.robot.LimelightHelpers;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import frc.robot.Constants.LimelightConstants;;
 //import frc.robot.LimelightHelpers.LimelightTarget_Retro;
 
 
@@ -49,6 +50,8 @@ public class LimelightSubsystem extends SubsystemBase {
     this.networkTableName = networkTableName;
 
     limelightNetworkTable.getEntry("snapshot").setDouble(0.0);
+    LimelightHelpers.setCameraPose_RobotSpace(networkTableName, LimelightConstants.forward, LimelightConstants.side,
+      LimelightConstants.up, LimelightConstants.roll, LimelightConstants.pitch, LimelightConstants.yaw);
 
     new Trigger(RobotState::isEnabled)
         .onTrue(Commands.runOnce(this::enable))
