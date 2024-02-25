@@ -55,12 +55,12 @@ public class AutoShootSpeakerCommand extends Command{
     @Override
     public void execute()
     {
-        Commands.sequence(
+        /*Commands.sequence(
             Commands.parallel(
                 turn,
                 aim
             ).andThen(intake.shootSpeakerCommand())
-        );
+        );*/
     }
 
     // Called once the command ends or is interrupted.

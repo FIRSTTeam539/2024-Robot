@@ -1,6 +1,7 @@
 package frc.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
@@ -12,6 +13,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkBase.ControlType;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
+
 import static com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle;
 import static com.revrobotics.CANSparkBase.SoftLimitDirection.kForward;
 import static com.revrobotics.CANSparkBase.SoftLimitDirection.kReverse;
@@ -42,7 +46,7 @@ public class ArmSubsystem extends SubsystemBase{
     //private final RelativeEncoder encoder2 = armFollower.getEncoder();
     private final SparkPIDController pidController = armLeader.getPIDController();
     //private final SparkPIDController m_pidController2 = armMotor2.getPIDController(); 
-    //private final DutyCycleEncoder armEnc = new DutyCycleEncoder(ArmConstants.kEncoderID);
+    private final DutyCycleEncoder armEnc = new DutyCycleEncoder(ArmConstants.kEncoderID);
     private final SparkAbsoluteEncoder armEncoder = armLeader.getAbsoluteEncoder(kDutyCycle);
     /*private final ArmFeedforward m_feedforward =
         new ArmFeedforward(
@@ -86,23 +90,35 @@ public class ArmSubsystem extends SubsystemBase{
         armLeader.getForwardLimitSwitch(kNormallyOpen).enableLimitSwitch(false);
         armLeader.getReverseLimitSwitch(kNormallyOpen).enableLimitSwitch(false);*/
         //armLeader.setSoftLimit(kReverse, SMART_MOTION_SLOT)
+        /*MotorFeedbackSensor x = new MotorFeedbackSensor() {
+            
+        };*/
+        //pidController.setFeedbackDevice(armEnc);
         armFollower.follow(armLeader, true);
 
         armLeader.setIdleMode(IdleMode.kBrake);
         armFollower.setIdleMode(IdleMode.kBrake);
+        //armEncoder.setZeroOffset(0);
+        //armLeader.getEncoder().setInverted(true);
+        armLeader.setInverted(true);
+        //armLeader.getEncoder().setPositionConversionFactor(SMART_MOTION_SLOT)
 
         /*// Save settings to motor flash, so they persist between power cycles
         armMotor1.burnFlash();
         armMotor2.burnFlash();*/
 
         //arm enc ssoudl arlready be wrrred into sparkmax so this code will not be neccecary
-        //armEnc.setDistancePerRotation(ArmConstants.kEncoderDistancePerRotation);
-        //armEnc.setPositionOffset(ArmConstants.kArmOffsetRads);
+        armEnc.setDistancePerRotation(ArmConstants.kEncoderDistancePerRotation);
+        armEnc.setPositionOffset(ArmConstants.kArmOffsetRads);
     }
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("arm Position Radians", getArmPositionRadians());
-        SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());
+        //SmartDashboard.putNumber("arm Position Radians", getArmPositionRadians());
+        //SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());
+        //SmartDashboard.putBoolean("arm enc present", armEncoder == null);
+        SmartDashboard.putNumber("raw duty cycle encoder", getRawDutyCycleEncoder());
+        SmartDashboard.putNumber("radians duty cycle", getDutyCycleEncoderRadians());
+        SmartDashboard.putNumber("arm possition", getArmAngleRadians());
       /*if (targetPosition != null) {
         // Calculate feed forward based on angle to counteract gravity
         double cosineScalar = Math.cos(getArmPositionRadians());
@@ -118,7 +134,8 @@ public class ArmSubsystem extends SubsystemBase{
     public void moveArmAtSpeed(double speed){
         //targetPosition = null;
         armLeader.set(speed);
-        armFollower.set(speed);
+        armFollower.set(-speed);
+        SmartDashboard.putNumber("arm speed", speed);
         //System.out.println("this");
     }
 
@@ -160,8 +177,17 @@ public class ArmSubsystem extends SubsystemBase{
     * Gets the wrist position Zero is horizontal, up is positive
     * @return position in radians
     */
-    public double getArmPositionRadians() {
+    /*public double getArmPositionRadians() {
         return Units.rotationsToRadians(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
+    }*/
+    public double getRawDutyCycleEncoder(){
+        return armEnc.getAbsolutePosition();
+    }
+    public double getDutyCycleEncoderRadians(){
+        return armEnc.getAbsolutePosition()-ArmConstants.kArmOffsetRads;
+    }
+    public double getArmAngleRadians(){
+        return armEnc.getDistance();
     }
     /*public double getArmPositionTargetRadians(){
         return targetPosition;
@@ -170,6 +196,27 @@ public class ArmSubsystem extends SubsystemBase{
     public double getArmPositionDegrees(){
         return Units.rotationsToDegrees(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
     }
+    public void moveToPos(double position){
+        if(position>ArmConstants.kMaxUpPos || position < ArmConstants.kMaxDownPos){
+            return;
+        }
+        while(Math.abs(getArmAngleRadians()-position)> ArmConstants.allowedErr){
+            moveArmAtSpeed(-ArmConstants.kP*(Math.abs(getArmAngleRadians()-position)));
+            //armLeader.set(-MathUtil.clamp(ArmConstants.kP*(Math.abs(getArmAngleRadians()-position))+ArmConstants.holdArmPower, 
+            //ArmConstants.kMaxUpSpeed, ArmConstants.kMaxDownSpeed));
+            SmartDashboard.putString("test2", "yay");
+        }
+    }
+    public Command moveToPosCommand(double position){
+        return this.run(()->{
+            //while(Math.abs(armEnc.getAbsolutePosition()-position)> ArmConstants.allowedErr){
+                armLeader.set(-MathUtil.clamp(ArmConstants.kP*(Math.abs(armEnc.getAbsolutePosition()-position))+ArmConstants.holdArmPower, 
+                ArmConstants.kMaxUpSpeed, ArmConstants.kMaxDownSpeed));
+            //}
+        }).unless(()->position>ArmConstants.kMaxUpPos || position < ArmConstants.kMaxDownPos)
+        .until(()->Math.abs(armEnc.getAbsolutePosition()-position)< ArmConstants.allowedErr);
+    }
+    // motor.set(Clamp kp*error + ff)
 
     /**
     * Convert from arm position in radians to encoder rotations
@@ -197,21 +244,34 @@ public class ArmSubsystem extends SubsystemBase{
      */
     public void setArmVelocity(double armMoveControl){
         //targetPosition = null;
-
-        double shootArmAxis = -MathUtil.clamp(armMoveControl+ArmConstants.holdArmPower, ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
+        double shootArmAxis;
+        if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos && -armMoveControl >0)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos && -armMoveControl<0)){
+            shootArmAxis = MathUtil.clamp(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians()), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
+        } else if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos-0.1 && -armMoveControl >0.6)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos+0.2 && -armMoveControl<-0.1)){
+            shootArmAxis = MathUtil.clamp(-armMoveControl*0.5+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
+        } else{
+            shootArmAxis = MathUtil.clamp(-armMoveControl+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
+        }
         armLeader.set(shootArmAxis * ArmConstants.kArmRate);
-        armFollower.set(armMoveControl);
+        //armFollower.set(armMoveControl);
         
+        SmartDashboard.putNumber("speed", armMoveControl);
+        SmartDashboard.putNumber("shoot arm move control", shootArmAxis);
         SmartDashboard.putNumber("arm power", shootArmAxis * ArmConstants.kArmRate); // put arm speed on Smartdash
+        SmartDashboard.putNumber("arm vel", armLeader.getAbsoluteEncoder().getVelocity());
+        SmartDashboard.putNumber("arm enc test", armLeader.getEncoder().getPosition());
+        SmartDashboard.putNumber("absolute arm test", armEncoder.getVelocity());
+        SmartDashboard.putNumber("absolute arm test vel", armEncoder.getPosition());
         SmartDashboard.putNumber("arm enc value", this.getArmPositionDegrees());  // put encoder value on SmartDash
     }
 
     public Command moveArm(double input){
-        if (input <= 0){
+        return this.run(()->this.setArmVelocity(input));
+        /*if (input <= 0){
             return this.run(() ->this.moveArmAtSpeed(input * 0.6));
         } else {
             return this.run(() ->this.moveArmAtSpeed(input * 0.6));
-        }
+        }*/
     }
 
     /*public Command setArmPos(double pos){

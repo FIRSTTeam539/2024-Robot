@@ -60,14 +60,14 @@ public final class Constants {
   public static final class ArmConstants{
     public static final int kArmSparkMaxCANID1 = 15; // reconfigure to actual values
     public static final int kArmSparkMaxCANID2 = 16;//set to value
-    //public static final int kEncoderID = 1000000; //adjust to actual value
+    public static final int kEncoderID = 0; //adjust to actual value
 
     public static final double kSVolts = 0; //smallest value to make arm move miscule amount - static movment amount
     public static final double kGVolts = 0;
     public static final double kVVoltSecondPerRad =0;
     public static final double kAVoltSecondSquaredPerRad = 0;
 
-    public static final double kArmOffsetRads = 0;
+    public static final double kArmOffsetRads = 0.08;
 
     public static final double kP = 5e-5;
     public static final double kI = 1e-6;
@@ -76,7 +76,7 @@ public final class Constants {
     public static final double kIz = 0;
     public static final double kFF = 1.00;
 
-    public static final double holdArmPower = 0.1;
+    public static final double holdArmPower = 0.06;
 
 
     public static final double kMinOutput = -1;
@@ -87,21 +87,23 @@ public final class Constants {
     public static final double maxAcc = 1500;
     public static final double kMaxVelocityRadPerSecond =10; //set latter
     public static final double kMaxAccelerationRadPerSecSquared = 275;
-    public static final double allowedErr= Units.degreesToRadians(0.1);//change
+    public static final double allowedErr= Units.degreesToRadians(0.01);//change
 
-    public static final double ENCODER_OFFSET = -0.58342d;
+    public static final double ENCODER_OFFSET = 0.08d;
     public static final double GRAVITY_FF = 0.01;
     public static final float LIMIT_BOTTOM = 0f;
     public static final float LIMIT_TOP = (float) (2*Math.PI);
 
-   // public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
+    public static final double kEncoderDistancePerRotation = 2*Math.PI; // give us 2 rad per rotation
 
 
     public static final double kArmRate = 0.5;
 
     //min/ max value of arm
-    public static final double kMaxDownSpeed= -0.5;
+    public static final double kMaxDownSpeed= -0.4;
     public static final double kMaxUpSpeed= 0.5;
+    public static final double kMaxUpPos = 1.82;
+    public static final double kMaxDownPos = 0.03;
     //set value of deadzone
 
 
@@ -110,9 +112,9 @@ public final class Constants {
   } 
 
   public static final class IntakeConstants{
-    public static final int kIntakeSparkMaxCANID = 13798287; //change to actual value
-    public static final int kShooterSparkMaxCANID1 = 18343848; 
-    public static final int kShooterSparkMaxCANID2 = 44398;
+    public static final int kIntakeSparkMaxCANID = 17; //change to actual value
+    public static final int kShooterSparkMaxCANID1 = 18; 
+    public static final int kShooterSparkMaxCANID2 = 19;
 
     public static final int[] kIntakeEncoderID = {1,2};
     public static final boolean kEncoderDirectionReversed = false;

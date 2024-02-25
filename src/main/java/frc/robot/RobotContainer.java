@@ -11,9 +11,12 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.swervedrive.auto.TurnToAprilTagCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.climber.ClimbSubsystem;
@@ -29,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.swervedrive.auto.TurnToAprilTagCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -45,12 +49,13 @@ public class RobotContainer {
   private final SwerveSubsystem m_robotDrive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
   "swerve"));
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
-  //private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
   //private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
   // The driver's controller
   CommandXboxController m_driverController0 = new CommandXboxController(OIConstants.kDriverControllerPort0);
   CommandXboxController m_driverController1 = new CommandXboxController(OIConstants.kDriverControllerPort1);
+  //SequentialCommandGroup x = new SequentialCommandGroup(new TurnToAprilTagCommand(m_robotDrive, m_robotLimelight), m_robotArm.moveToPositionCommand());
   
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -70,18 +75,18 @@ public class RobotContainer {
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
       ()->true);
     
-    TeleopDrive simClosedFieldRel = new TeleopDrive(m_robotDrive,
+    /*TeleopDrive simClosedFieldRel = new TeleopDrive(m_robotDrive,
       (()->MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.LEFT_Y_DEADBAND_1)), 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND_1)), 
       (()->MathUtil.applyDeadband(m_driverController0.getRightX(), OIConstants.LEFT_X_DEADBAND_1)), 
-      ()->true);
+      ()->true);*/
   
-    m_robotDrive.setDefaultCommand(!RobotBase.isSimulation() ? teleopDrive : simClosedFieldRel);
+    //m_robotDrive.setDefaultCommand(!RobotBase.isSimulation() ? teleopDrive : simClosedFieldRel);
+    m_robotDrive.setDefaultCommand(teleopDrive);
     m_robotClimb.setDefaultCommand(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2)*0.2, MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.2), m_robotClimb)); // works
-    //m_robotArm.setDefaultCommand(Commands.run(()->m_robotArm.moveArmAtSpeed(MathUtil.applyDeadband(m_driverController1.getRightY(),0.2)*0.5),m_robotArm));
+    m_robotArm.setDefaultCommand(Commands.run(()->m_robotArm.setArmVelocity(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), 0.1)-MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)),m_robotArm));
 
-    //m_robotArm.setDefaultCommand(Commands.run((()->m_robotArm.moveArmAtSpeed(MathUtil.applyDeadband(m_driverController1.getRightY(), OIConstants.RIGHT__Y_DEADBAND_2))), m_robotArm));
-    //m_robotClimb.setDefaultCommand(m_robotClimb.climbCommand(MathUtil.applyDeadband(m_driverController1.getLeftY(), OIConstants.LEFT_X__DEADBAND_2)));
+    m_robotIntake.setDefaultCommand(Commands.run(()->m_robotIntake.disable(), m_robotIntake));
   }
 
   /**
@@ -96,20 +101,29 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //when the right stick is pushed down, moves wheels in x formation to stop all movement
     m_driverController0.x().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
-    m_driverController0.y().onTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
-    //m_driverController1.a().onTrue(Commands.run(()->System.out.println("hi")));
-    //System.out.println("yay");
-    m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2)*0.6, MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
+    m_driverController0.y().whileTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
+    m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
+    m_driverController1.a().onTrue(m_robotArm.disableArm());
+    m_driverController1.povUp().whileTrue(Commands.run(()->m_robotArm.setArmVelocity(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), 0.1)-MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.25), m_robotArm));
+    
+    m_driverController1.rightBumper().whileTrue(m_robotIntake.justShootCommand(1));//MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.5));
+    m_driverController1.y().whileTrue(m_robotIntake.justIntakeCommand(0.5));
+    m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.1));
+    m_driverController1.x().whileTrue(m_robotIntake.justIntakeCommand(0));
+    m_driverController1.b().whileTrue(m_robotIntake.justShootCommand(0));
+
+    //m_driverController1.povLeft().whileTrue(Commands.run(()->m_robotArm.moveToPos(1), m_robotArm));
+
     //m_driverController1.x().whileTrue(m_robotClimb.climbLeftCommand(0.2));
     //m_driverController1.b().whileTrue(m_robotClimb.climbRightCommand(0.2));
     //m_driverController1.y().whileTrue(m_robotClimb.climbRightCommand(-0.2));
     //m_driverController1.leftBumper().whileTrue(m_robotClimb.climbLeftCommand(-0.2));
-    //m_driverController1.a().onTrue(m_robotArm.disableArm());
-    //m_driverController1.x().whileTrue(m_robotArm.moveArm(-0.5));
-    //m_driverController1.b().whileTrue(m_robotArm.moveArm(0.1));
-
-    //m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(0.6)), m_robotArm));
-    //m_driverController1.x().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(-0.6)), m_robotArm));
+   
+    //m_driverController1.x().whileTrue(m_robotArm.moveArm(0.3));
+    //m_driverController1.b().whileTrue(m_robotArm.moveArm(-0.2));
+    
+    //m_driverController1.leftBumper().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(0.2)), m_robotArm));
+    //m_driverController1.rightBumper().whileTrue(Commands.run((()->m_robotArm.moveArmAtSpeed(-0.2)), m_robotArm));
     //m_driverController1.leftTrigger().onTrue(m_robotIntake.intakeCommand());
     //m_driverController1.rightBumper().onTrue(m_robotIntake.shootSpeakerCommand());
     //m_driverController1.leftBumper().onTrue(m_robotIntake.shootSpeakerCommand());
