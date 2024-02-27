@@ -15,16 +15,17 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeSubsystem extends SubsystemBase{
     private final CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.kIntakeSparkMaxCANID, MotorType.kBrushless);
     private final CANSparkMax shooterLeader = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID1, MotorType.kBrushless);
     private final CANSparkMax shooterFollower = new CANSparkMax(IntakeConstants.kShooterSparkMaxCANID2, MotorType.kBrushless);
-    private final SparkAbsoluteEncoder shooterncoder = shooterLeader.getAbsoluteEncoder(kDutyCycle);
+    //private final SparkAbsoluteEncoder shooterncoder = shooterLeader.getAbsoluteEncoder(kDutyCycle);
     //private final Encoder shooterEnc = new Encoder(IntakeConstants.kIntakeEncoderID[0], IntakeConstants.kIntakeEncoderID[1], IntakeConstants.kEncoderDirectionReversed);
-    // Initializes a DigitalInput on DIO 0
-    //private final DigitalInput beamBreakSensor = new DigitalInput(IntakeConstants.kBeamBreakSensorId);
+    // Initializes a DigitalInput on DIO 1
+    private final DigitalInput beamBreakSensor = new DigitalInput(IntakeConstants.kBeamBreakSensorId);
 
     public IntakeSubsystem(){
         intakeMotor.setIdleMode(IdleMode.kBrake);
@@ -42,6 +43,7 @@ public class IntakeSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("game piece", getGamePiecePresent());
         // TODO Auto-generated method stub
         //super.periodic();
         //SmartDashboard.putNumber("shooter encoder", getShooterSpeed());
@@ -50,9 +52,9 @@ public class IntakeSubsystem extends SubsystemBase{
     /*public double getShooterSpeed(){
         return shooterEnc.getRate();
     }*/
-    /*public boolean getGamePiecePresent(){
-        return beamBreakSensor.get();
-    }*/
+    public boolean getGamePiecePresent(){
+        return !beamBreakSensor.get();
+    }
     public void setIntakeSpeed(double speed){
         intakeMotor.set(speed);
     }
@@ -82,21 +84,30 @@ public class IntakeSubsystem extends SubsystemBase{
             this.setIntakeSpeed(IntakeConstants.kIntakeSpeed);
         }*/
     }
-    /*public Command intakeCommand(){
-        return this.run(()->this.intake()).until(()->this.getGamePiecePresent());//may need to reverse direction
-    }*/
+    public Command intakeCommand(){
+        return this.run(()->this.intake())
+        .until(()->this.getGamePiecePresent())
+        .andThen(this.run(()->this.setIntakeSpeed(-0.2)).withTimeout(0.1));//may need to reverse direction
+    }
 
     public Command stopIntakeCommand (){
         return this.startEnd(()-> this.setIntakeSpeed(0), ()->this.setIntakeSpeed(0));
     }
-    /*public Command shootSpeakerCommand(){
+    public Command shootSpeakerCommand(){
+        Timer time = new Timer();
+        time.reset();
+        //time.restart();
+        time.start();
         return this.run(()->{
             this.setShooterSpeed(IntakeConstants.kShooterSpeedSpeaker);
-        }).until(()->this.getShooterSpeed()>=IntakeConstants.kShooterSpeedSpeaker)
-        .andThen(()->this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker))
-        .until(()->!this.getGamePiecePresent())
-        .andThen(()->this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker)).withTimeout(0.1);
-    }*/
+            //SmartDashboard.putNumber("timer", time.get());
+        }).withTimeout(0.3)//.until(()->time.get()>=0.2)//.withTimeout(0.1)//.until(()->time.get()>=0.2)
+        .andThen(this.run(()->{
+            time.stop();
+            this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).withTimeout(0.5));//.withTimeout(2);//.withTimeout(2);
+        /* .until(()->!this.getGamePiecePresent())
+        .andThen(()->this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker)).withTimeout(0.05);*/
+    }
 
     /*
     public Command shootSpeakerCommand(){
@@ -108,7 +119,14 @@ public class IntakeSubsystem extends SubsystemBase{
         .andThen(()->this.shootAndIntake(IntakeConstants.kShooterSpeedAmp)).withTimeout(0.1);
     }*/
     public Command shootAmpCommand(){
-        return this.run(()->this.shootAmp());
+        return this.run(()->{
+            this.setShooterSpeed(IntakeConstants.kShooterSpeedAmp);
+            //SmartDashboard.putNumber("timer", time.get());
+        }).withTimeout(0.2)//.until(()->time.get()>=0.2)//.withTimeout(0.1)//.until(()->time.get()>=0.2)
+        .andThen(this.run(()->{
+            this.shootAndIntake(IntakeConstants.kShooterSpeedAmp);}).withTimeout(0.5));//.withTimeout(2);//.withTimeout(2);
+        /* .until(()->!this.getGamePiecePresent())
+        .andThen(()->this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker)).withTimeout(0.05);*/
     }
     public void disable(){
         shooterLeader.set(0);
@@ -122,7 +140,8 @@ public class IntakeSubsystem extends SubsystemBase{
         return this.run(()->intakeMotor.set(speed));
     }
     public Command justShootCommand(double speed){
-        return this.run(()->shooterLeader.set(speed));
+        return this.run(()->{shooterLeader.set(speed);
+        shooterFollower.set(speed);});
     }
 
 }

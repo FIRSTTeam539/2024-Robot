@@ -138,40 +138,6 @@ public class ArmSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("arm speed", speed);
         //System.out.println("this");
     }
-
-    /**
-   * Moves the elevator to a position. Zero is horizontal, up is positive. There is no motor safety, so calling this
-   * will continue to move to this position, and hold it until another method is called.
-   * @param radians position in radians
-   */
-    /*private void moveToPosition(double radians) {
-        // Set the target position, but move in execute() so feed forward keeps updating
-        targetPosition = radians;
-    }*/
-
-    /*public boolean atTargetPossition(){
-        if (targetPosition == null){
-            return false;
-        }
-        if (Math.abs(targetPosition-this.getArmPositionRadians())<=ArmConstants.allowedErr){
-            return true;
-        }
-        return false;
-    }*/
-
-    /*public Command moveToPositionCommand(double targetpos){
-        return this.run(()->{
-            // Calculate feed forward based on angle to counteract gravity
-            double cosineScalar = Math.cos(getArmPositionRadians());
-            double feedForward = ArmConstants.GRAVITY_FF * cosineScalar;
-            pidController.setReference(armRadiansToEncoderRotations(targetpos), 
-            ControlType.kSmartMotion, 0, feedForward, ArbFFUnits.kPercentOut);
-  
-      SmartDashboard.putNumber("arm Position Radians", getArmPositionRadians());
-      SmartDashboard.putNumber("arm Position Raw", armEncoder.getPosition());});
-        //return run(() -> this.moveToPosition(radians))
-        //.until(this::atTargetPossition);
-    }*/
     
     /**
     * Gets the wrist position Zero is horizontal, up is positive
@@ -210,11 +176,14 @@ public class ArmSubsystem extends SubsystemBase{
     public Command moveToPosCommand(double position){
         return this.run(()->{
             //while(Math.abs(armEnc.getAbsolutePosition()-position)> ArmConstants.allowedErr){
-                armLeader.set(-MathUtil.clamp(ArmConstants.kP*(Math.abs(armEnc.getAbsolutePosition()-position))+ArmConstants.holdArmPower, 
-                ArmConstants.kMaxUpSpeed, ArmConstants.kMaxDownSpeed));
+                /*armLeader.set(-MathUtil.clamp(ArmConstants.kP*(Math.abs(armEnc.getAbsolutePosition()-position))+ArmConstants.holdArmPower, 
+                ArmConstants.kMaxUpSpeed, ArmConstants.kMaxDownSpeed));*/
+                this.moveArmAtSpeed(ArmConstants.kP*(position-getArmAngleRadians()));
+                SmartDashboard.putNumber("goal", position);
+                SmartDashboard.putNumber("error", position-getArmAngleRadians());
             //}
         }).unless(()->position>ArmConstants.kMaxUpPos || position < ArmConstants.kMaxDownPos)
-        .until(()->Math.abs(armEnc.getAbsolutePosition()-position)< ArmConstants.allowedErr);
+        .until(()->Math.abs(getArmAngleRadians()-position)< ArmConstants.allowedErr);
     }
     // motor.set(Clamp kp*error + ff)
 
@@ -245,12 +214,14 @@ public class ArmSubsystem extends SubsystemBase{
     public void setArmVelocity(double armMoveControl){
         //targetPosition = null;
         double shootArmAxis;
-        if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos && -armMoveControl >0)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos && -armMoveControl<0)){
+        if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos && armMoveControl >0)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos && armMoveControl<0)){
             shootArmAxis = MathUtil.clamp(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians()), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
-        } else if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos-0.1 && -armMoveControl >0.6)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos+0.2 && -armMoveControl<-0.1)){
-            shootArmAxis = MathUtil.clamp(-armMoveControl*0.5+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
-        } else{
-            shootArmAxis = MathUtil.clamp(-armMoveControl+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
+        } else if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos-0.1 && armMoveControl >0.6)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos+0.2 && armMoveControl<-0.1)){
+            shootArmAxis = MathUtil.clamp(armMoveControl*0.25+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
+        } else if((getArmAngleRadians() <= Math.PI/2 && armMoveControl <0)||(getArmAngleRadians()>=Math.PI/2 &&armMoveControl>0)){
+            shootArmAxis = MathUtil.clamp(armMoveControl*0.35+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
+        } else {
+            shootArmAxis = MathUtil.clamp(armMoveControl+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
         }
         armLeader.set(shootArmAxis * ArmConstants.kArmRate);
         //armFollower.set(armMoveControl);

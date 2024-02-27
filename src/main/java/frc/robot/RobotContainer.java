@@ -102,17 +102,25 @@ public class RobotContainer {
     //when the right stick is pushed down, moves wheels in x formation to stop all movement
     m_driverController0.x().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
     m_driverController0.y().whileTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
+    m_driverController0.leftBumper().whileTrue(m_robotArm.moveToPosCommand(0.03));
+    m_driverController0.rightBumper().whileTrue(m_robotArm.moveToPosCommand(Math.PI/2));
+    
     m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
-    m_driverController1.a().onTrue(m_robotArm.disableArm());
+    m_driverController1.rightBumper().whileTrue(m_robotIntake.shootSpeakerCommand());
+    m_driverController1.y().whileTrue(m_robotIntake.intakeCommand());
+    m_driverController1.x().whileTrue(m_robotIntake.shootAmpCommand());
+    //m_driverController1.a().onTrue(m_robotArm.disableArm());
     m_driverController1.povUp().whileTrue(Commands.run(()->m_robotArm.setArmVelocity(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), 0.1)-MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.25), m_robotArm));
     
-    m_driverController1.rightBumper().whileTrue(m_robotIntake.justShootCommand(1));//MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.5));
-    m_driverController1.y().whileTrue(m_robotIntake.justIntakeCommand(0.5));
+    m_driverController1.a().whileTrue(m_robotIntake.justShootCommand(0.5));//MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.5));
+    m_driverController1.b().whileTrue(m_robotIntake.justIntakeCommand(0.5));
     m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.1));
-    m_driverController1.x().whileTrue(m_robotIntake.justIntakeCommand(0));
-    m_driverController1.b().whileTrue(m_robotIntake.justShootCommand(0));
 
-    //m_driverController1.povLeft().whileTrue(Commands.run(()->m_robotArm.moveToPos(1), m_robotArm));
+    
+    //m_driverController1.x().whileTrue(m_robotIntake.justIntakeCommand(0));
+    //m_driverController1.b().whileTrue(m_robotIntake.justShootCommand(0));
+
+    //m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(Math.PI/4));
 
     //m_driverController1.x().whileTrue(m_robotClimb.climbLeftCommand(0.2));
     //m_driverController1.b().whileTrue(m_robotClimb.climbRightCommand(0.2));

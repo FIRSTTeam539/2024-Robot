@@ -69,14 +69,17 @@ public final class Constants {
 
     public static final double kArmOffsetRads = 0.08;
 
-    public static final double kP = 5e-5;
+    public static final double kP = 0.35;
+
+
+    /*
     public static final double kI = 1e-6;
     public static final double kD = 0;
     public static final double kF = 0;
     public static final double kIz = 0;
-    public static final double kFF = 1.00;
+    public static final double kFF = 1.00;*/
 
-    public static final double holdArmPower = 0.06;
+    public static final double holdArmPower = 0.073;
 
 
     public static final double kMinOutput = -1;
@@ -90,7 +93,7 @@ public final class Constants {
     public static final double allowedErr= Units.degreesToRadians(0.01);//change
 
     public static final double ENCODER_OFFSET = 0.08d;
-    public static final double GRAVITY_FF = 0.01;
+    //public static final double GRAVITY_FF = 0.01;
     public static final float LIMIT_BOTTOM = 0f;
     public static final float LIMIT_TOP = (float) (2*Math.PI);
 
@@ -100,10 +103,10 @@ public final class Constants {
     public static final double kArmRate = 0.5;
 
     //min/ max value of arm
-    public static final double kMaxDownSpeed= -0.4;
+    public static final double kMaxDownSpeed= -0.5;
     public static final double kMaxUpSpeed= 0.5;
     public static final double kMaxUpPos = 1.82;
-    public static final double kMaxDownPos = 0.03;
+    public static final double kMaxDownPos = 0.025;
     //set value of deadzone
 
 
@@ -116,18 +119,18 @@ public final class Constants {
     public static final int kShooterSparkMaxCANID1 = 18; 
     public static final int kShooterSparkMaxCANID2 = 19;
 
-    public static final int[] kIntakeEncoderID = {1,2};
+    //public static final int[] kIntakeEncoderID = {1,2};
     public static final boolean kEncoderDirectionReversed = false;
     public static final  CounterBase.EncodingType kEncoderDecodingType = Encoder.EncodingType.k4X; 
     public static final double shooterWheelRadius = Units.inchesToMeters(2); //in meter per seconds
     public static final double kShooterDistancePerPulse = 2*Math.PI*shooterWheelRadius; // in meters
 
-    public static int kBeamBreakSensorId = 0;
+    public static int kBeamBreakSensorId = 1;
 
-    public static final double kIntakeSpeed = 1;
+    public static final double kIntakeSpeed = 0.3;
     public static final double kShooterSpeedSpeaker = 1;
-    public static final double kShooterSpeedAmp = 0.2;
-    public static final double kMaxShooterSpeedMetersPerSecond = 1;
+    public static final double kShooterSpeedAmp = 0.1;
+    public static final double kMaxShooterSpeedMetersPerSecond = 0.5;
 
   }
 
