@@ -115,7 +115,8 @@ public class RobotContainer {
     m_driverController1.a().whileTrue(m_robotIntake.justShootCommand(0.5));//MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.5));
     m_driverController1.b().whileTrue(m_robotIntake.justIntakeCommand(0.5));
     m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.1));
-
+    m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.3919));
+    m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(0.6128));
     
     //m_driverController1.x().whileTrue(m_robotIntake.justIntakeCommand(0));
     //m_driverController1.b().whileTrue(m_robotIntake.justShootCommand(0));

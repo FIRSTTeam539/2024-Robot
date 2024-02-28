@@ -183,7 +183,8 @@ public class ArmSubsystem extends SubsystemBase{
                 SmartDashboard.putNumber("error", position-getArmAngleRadians());
             //}
         }).unless(()->position>ArmConstants.kMaxUpPos || position < ArmConstants.kMaxDownPos)
-        .until(()->Math.abs(getArmAngleRadians()-position)< ArmConstants.allowedErr);
+        .until(()->Math.abs(getArmAngleRadians()-position)< ArmConstants.allowedErr)
+        .andThen(this.run(()->this.moveArmAtSpeed(ArmConstants.kP*(position-getArmAngleRadians()))).withTimeout(2));
     }
     // motor.set(Clamp kp*error + ff)
 
@@ -216,10 +217,10 @@ public class ArmSubsystem extends SubsystemBase{
         double shootArmAxis;
         if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos && armMoveControl >0)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos && armMoveControl<0)){
             shootArmAxis = MathUtil.clamp(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians()), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
-        } else if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos-0.1 && armMoveControl >0.6)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos+0.2 && armMoveControl<-0.1)){
+        } else if ((getArmAngleRadians()>= ArmConstants.kMaxUpPos-0.1 && armMoveControl >0.6)||(getArmAngleRadians()<= ArmConstants.kMaxDownPos+0.1 && armMoveControl<-0.1)){
             shootArmAxis = MathUtil.clamp(armMoveControl*0.25+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
         } else if((getArmAngleRadians() <= Math.PI/2 && armMoveControl <0)||(getArmAngleRadians()>=Math.PI/2 &&armMoveControl>0)){
-            shootArmAxis = MathUtil.clamp(armMoveControl*0.35+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
+            shootArmAxis = MathUtil.clamp(armMoveControl*0.37+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed);
         } else {
             shootArmAxis = MathUtil.clamp(armMoveControl+(ArmConstants.holdArmPower*Math.cos(getArmAngleRadians())), ArmConstants.kMaxDownSpeed, ArmConstants.kMaxUpSpeed); // Apply axis clamp and invert for driver control
         }
