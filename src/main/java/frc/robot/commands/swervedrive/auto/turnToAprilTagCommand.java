@@ -39,9 +39,13 @@ public class TurnToAprilTagCommand extends Command{
     @Override
     public void execute()
     {
-        if (limelight.getTV()){
-            swerve.drive(swerve.getTargetSpeeds(0 ,0, Rotation2d.fromDegrees(-limelight.getTX())));   
+        if(limelight.getTV()){
+            swerve.drive(new Translation2d(0, 0), (-DriveConstants.kPAprilTag*limelight.getTX()), false);
         }
+        
+        /*if (limelight.getTV()){
+            swerve.drive(swerve.getTargetSpeeds(0 ,0, Rotation2d.fromDegrees(-limelight.getTX())));   
+        }*/
     }
 
     // Called once the command ends or is interrupted.

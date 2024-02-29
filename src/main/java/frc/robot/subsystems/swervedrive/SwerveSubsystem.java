@@ -306,16 +306,40 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    SmartDashboard.putNumber("robot speed", this.getRobotSpeed());
-    SmartDashboard.putNumber("angular velocitry", this.getRobotAngularVelocity());
+    SmartDashboard.putNumber("robot speed feet", this.getRobotSpeedFeet());
+    SmartDashboard.putNumber("angular velocitry degrees", this.getRobotAngularVelocityDegrees());
+    SmartDashboard.putNumber("robot speed meters", this.getRobotSpeedMeters());
+    SmartDashboard.putNumber("angular velocitry radians", this.getRobotAngularVelocityRadians());
   }
-  public double getRobotSpeed(){
-         return Math.sqrt(Math.pow(swerveDrive.getRobotVelocity().vxMetersPerSecond,2)+Math.pow(swerveDrive.getRobotVelocity().vyMetersPerSecond, 2));
+  /**
+   * 
+   * @return returns robot speed in feet per second
+   */
+  public double getRobotSpeedFeet(){
+    return Units.metersToFeet(Math.sqrt(Math.pow(swerveDrive.getRobotVelocity().vxMetersPerSecond,2)+Math.pow(swerveDrive.getRobotVelocity().vyMetersPerSecond, 2)));
   }
-  public double getRobotAngularVelocity(){
-     return swerveDrive.getRobotVelocity().omegaRadiansPerSecond;
-    }
-
+    /**
+   * 
+   * @return returns robot speed in meters per second
+   */
+  public double getRobotSpeedMeters(){
+    return Math.sqrt(Math.pow(swerveDrive.getRobotVelocity().vxMetersPerSecond,2)+Math.pow(swerveDrive.getRobotVelocity().vyMetersPerSecond, 2));
+  }
+  /**
+   * 
+   * @return returns angular velocity in degrees per second
+   */
+  public double getRobotAngularVelocityDegrees(){
+    return Units.radiansToDegrees(swerveDrive.getRobotVelocity().omegaRadiansPerSecond);
+  }
+  /**
+   * 
+   * @return returns angular velocity in radians per second
+   */
+  public double getRobotAngularVelocityRadians(){
+    return swerveDrive.getRobotVelocity().omegaRadiansPerSecond;
+  }
+//
   @Override
   public void simulationPeriodic()
   {

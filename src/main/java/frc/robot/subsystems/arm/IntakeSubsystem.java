@@ -44,6 +44,7 @@ public class IntakeSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("game piece", getGamePiecePresent());
+        SmartDashboard.putBoolean("beam break test",beamBreakSensor.get());
         // TODO Auto-generated method stub
         //super.periodic();
         //SmartDashboard.putNumber("shooter encoder", getShooterSpeed());

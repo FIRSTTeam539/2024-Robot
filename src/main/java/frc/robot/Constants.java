@@ -125,7 +125,7 @@ public final class Constants {
     public static final double shooterWheelRadius = Units.inchesToMeters(2); //in meter per seconds
     public static final double kShooterDistancePerPulse = 2*Math.PI*shooterWheelRadius; // in meters
 
-    public static int kBeamBreakSensorId = 1;
+    public static int kBeamBreakSensorId = 3;
 
     public static final double kIntakeSpeed = 0.3;
     public static final double kShooterSpeedSpeaker = 1;
@@ -203,6 +203,8 @@ public final class Constants {
     public static final double AMP_TY_SETPOINT = -10;
     public static final double AMP_ROTATION_SETPOINT = Math.PI / 2;
     public static final double AUTO_TRANSLATE_DEBOUNCE_SECONDS = 0.1;
+
+    public static final double kPAprilTag = 0.3;
 
   }
   public static final class LimelightConstants{
