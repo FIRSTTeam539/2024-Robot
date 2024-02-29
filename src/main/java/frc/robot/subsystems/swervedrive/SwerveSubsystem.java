@@ -50,7 +50,7 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
-  public        double      maximumSpeed = Units.feetToMeters(14.5);
+  public        double      maximumSpeed = Units.feetToMeters(11.6);
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -78,6 +78,7 @@ public class SwerveSubsystem extends SubsystemBase
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
+      swerveDrive.swerveController.setMaximumAngularVelocity(Units.degreesToRadians(273));
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
@@ -339,6 +340,7 @@ public class SwerveSubsystem extends SubsystemBase
   public double getRobotAngularVelocityRadians(){
     return swerveDrive.getRobotVelocity().omegaRadiansPerSecond;
   }
+
 //
   @Override
   public void simulationPeriodic()
