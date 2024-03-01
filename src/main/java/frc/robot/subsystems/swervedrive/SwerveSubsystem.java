@@ -340,6 +340,9 @@ public class SwerveSubsystem extends SubsystemBase
   public double getRobotAngularVelocityRadians(){
     return swerveDrive.getRobotVelocity().omegaRadiansPerSecond;
   }
+  public double get(){
+    return swerveDrive.getAccel().get().toTranslation2d().getX();
+  }
 
 //
   @Override

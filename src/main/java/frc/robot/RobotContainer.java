@@ -52,6 +52,10 @@ public class RobotContainer {
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
   private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
+
+  /*private final Command justScoreAuto = m_robotArm.moveToPosCommand(Math.PI/4)
+      .andThen(m_robotArm.moveToPosCommand(0.3919))
+      .andThen(m_robotIntake.shootSpeakerCommand());*/
   // The driver's controller
   CommandXboxController m_driverController0 = new CommandXboxController(OIConstants.kDriverControllerPort0);
   CommandXboxController m_driverController1 = new CommandXboxController(OIConstants.kDriverControllerPort1);
@@ -75,6 +79,10 @@ public class RobotContainer {
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
       ()->true);
     
+    AbsoluteDrive absoluteDrive = new AbsoluteDrive(m_robotDrive, ()->MathUtil.applyDeadband(m_driverController0.getLeftY(), 0.1)*0.7,
+      ()->MathUtil.applyDeadband(m_driverController0.getLeftX(), 0.1)*0.7,
+      ()->MathUtil.applyDeadband(m_driverController0.getRightY(), 0.1)*0.7,
+      ()->MathUtil.applyDeadband(m_driverController0.getRightX(), 0.1)*0.7);
     /*TeleopDrive simClosedFieldRel = new TeleopDrive(m_robotDrive,
       (()->MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.LEFT_Y_DEADBAND_1)), 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND_1)), 
@@ -102,8 +110,8 @@ public class RobotContainer {
     //when the right stick is pushed down, moves wheels in x formation to stop all movement
     m_driverController0.x().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
     m_driverController0.y().whileTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
-    m_driverController0.leftBumper().whileTrue(m_robotArm.moveToPosCommand(0.03));
-    m_driverController0.rightBumper().whileTrue(m_robotArm.moveToPosCommand(Math.PI/2));
+    m_driverController0.leftBumper().whileTrue(m_robotArm.moveToPosCommand(0.1));
+    m_driverController0.rightBumper().whileTrue(m_robotArm.moveToPosCommand(Math.PI/3));
     
     m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
     m_driverController1.rightBumper().whileTrue(m_robotIntake.shootSpeakerCommand());
@@ -153,7 +161,11 @@ public class RobotContainer {
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return m_robotDrive.getAutonomousCommand("New Auto");
+    return m_robotArm.moveToPosCommand(Math.PI/4)
+      .andThen(m_robotArm.moveToPosCommand(0.3919))
+      .andThen(m_robotIntake.shootSpeakerCommand());
+    //return new SequentialCommandGroup(m_robotArm.moveToPosCommand(Math.PI/3), m_robotArm.moveToPosCommand(0.3919), m_robotIntake.shootAmpCommand());
+    //return m_robotDrive.getAutonomousCommand("test Auto");
   }
   
 
