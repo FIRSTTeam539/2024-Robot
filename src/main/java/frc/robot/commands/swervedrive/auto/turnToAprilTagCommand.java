@@ -60,8 +60,8 @@ public class TurnToAprilTagCommand extends Command{
     {
         if (!limelight.getTV()){
             return true;
-        } else if (Math.abs(limelight.getTX())<=DriveConstants.allowedAutoAimErrorRadians){
-            return true;
+        /* else if (Math.abs(limelight.getTX())<=DriveConstants.allowedAutoAimErrorRadians){
+            return true;*/
         }
         return false;
     }

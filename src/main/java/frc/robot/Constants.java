@@ -90,7 +90,7 @@ public final class Constants {
     public static final double maxAcc = 1500;
     public static final double kMaxVelocityRadPerSecond =10; //set latter
     public static final double kMaxAccelerationRadPerSecSquared = 275;
-    public static final double allowedErr= Units.degreesToRadians(0.01);//change
+    public static final double allowedErr= Units.degreesToRadians(1);//change
 
     public static final double ENCODER_OFFSET = 0.08d;
     //public static final double GRAVITY_FF = 0.01;
@@ -182,7 +182,7 @@ public final class Constants {
     // Distance between centers of right and left wheels on robot
     public static final double kWheelBase = Units.inchesToMeters(24);
 
-    public static final double allowedAutoAimErrorRadians = Units.degreesToRadians(0.1);
+    //public static final double allowedAutoAimErrorRadians = Units.degreesToRadians(0.1);
 
 
 

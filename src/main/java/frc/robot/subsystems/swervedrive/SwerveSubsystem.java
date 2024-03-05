@@ -74,7 +74,7 @@ public class SwerveSubsystem extends SubsystemBase
     System.out.println("}");
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.LOW;
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
@@ -311,6 +311,9 @@ public class SwerveSubsystem extends SubsystemBase
     SmartDashboard.putNumber("angular velocitry degrees", this.getRobotAngularVelocityDegrees());
     SmartDashboard.putNumber("robot speed meters", this.getRobotSpeedMeters());
     SmartDashboard.putNumber("angular velocitry radians", this.getRobotAngularVelocityRadians());
+     SmartDashboard.putNumber("Pose2d/X", this.getPose().getX());
+     SmartDashboard.putNumber("Pose2d/y", this.getPose().getY());
+     SmartDashboard.putNumber("Pose2d/Omega", this.getPose().getRotation().getDegrees());
   }
   /**
    * 
@@ -381,6 +384,7 @@ public class SwerveSubsystem extends SubsystemBase
   {
     return swerveDrive.getPose();
   }
+
 
   /**
    * Set chassis speeds with closed-loop velocity control.

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
@@ -31,9 +32,12 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swervedrive.auto.TurnToAprilTagCommand;
+import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.List;
@@ -51,11 +55,63 @@ public class RobotContainer {
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
-  private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
+  //private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
 
-  /*private final Command justScoreAuto = m_robotArm.moveToPosCommand(Math.PI/4)
-      .andThen(m_robotArm.moveToPosCommand(0.3919))
-      .andThen(m_robotIntake.shootSpeakerCommand());*/
+  private final Command justScoreAuto = m_robotArm.moveToPosCommand(0.3919).withTimeout(3)
+      .andThen(m_robotIntake.shootSpeakerCommand());
+
+  private final Command testAuto = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
+    m_robotIntake.shootSpeakerCommand().withTimeout(4),
+    m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
+    new ParallelCommandGroup(
+      (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)),
+      m_robotIntake.intakeCommand()
+    ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(0.7),
+    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
+    m_robotIntake.intakeCommand().withTimeout(.5));/*m_robotArm.moveToPosCommand(0.3919).withTimeout(3)
+      .andThen(m_robotIntake.shootSpeakerCommand().withTimeout(4))
+      .andThen(m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos))
+      .andThen((new ParallelCommandGroup((new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)), m_robotIntake.intakeCommand()).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(0.75)));*/
+  private final Command test2Auto = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
+    m_robotIntake.shootSpeakerCommand().withTimeout(4),
+    m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
+    new ParallelCommandGroup(
+      (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)),
+      m_robotIntake.intakeCommand()
+    ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(1.2),
+    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
+    m_robotIntake.intakeCommand().withTimeout(.5),
+    m_robotIntake.stopIntakeCommand().withTimeout(0.1),
+    (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)).withTimeout(0.7),
+    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
+    m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
+    m_robotIntake.shootSpeakerCommand()
+    );
+
+  private final Command test3 = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
+    m_robotIntake.shootSpeakerCommand().withTimeout(4),
+    (new TeleopDrive(m_robotDrive, ()->0, ()->-0.6, ()->0, ()->true)).withTimeout(.3),
+    (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)).withTimeout(1.2),
+    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2));
+
+
+    /*private final Command test3Auto = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
+      m_robotIntake.shootSpeakerCommand().withTimeout(4),
+      m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
+      new ParallelCommandGroup(
+        (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)),
+        m_robotIntake.intakeCommand()
+      ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(0.7),
+      m_robotIntake.intakeCommand().withTimeout(.5),
+      (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)).withTimeout(1)
+    );*/
+  
+  private final Command moveAndJustScoreAuto =m_robotArm.moveToPosCommand(Math.PI/4)
+      .andThen(m_robotArm.moveToPosCommand(0.3919).withTimeout(3))
+      .andThen(m_robotIntake.shootSpeakerCommand().withTimeout(3 ))
+      .andThen((new TeleopDrive(m_robotDrive, ()->-0.5, ()->0, ()->0, ()->true)).withTimeout(2));
+    
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
   // The driver's controller
   CommandXboxController m_driverController0 = new CommandXboxController(OIConstants.kDriverControllerPort0);
   CommandXboxController m_driverController1 = new CommandXboxController(OIConstants.kDriverControllerPort1);
@@ -91,10 +147,21 @@ public class RobotContainer {
   
     //m_robotDrive.setDefaultCommand(!RobotBase.isSimulation() ? teleopDrive : simClosedFieldRel);
     m_robotDrive.setDefaultCommand(teleopDrive);
-    m_robotClimb.setDefaultCommand(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2)*0.2, MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.2), m_robotClimb)); // works
+    m_robotClimb.setDefaultCommand(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)), m_robotClimb)); // works
     m_robotArm.setDefaultCommand(Commands.run(()->m_robotArm.setArmVelocity(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), 0.1)-MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)),m_robotArm));
 
     m_robotIntake.setDefaultCommand(Commands.run(()->m_robotIntake.disable(), m_robotIntake));
+    
+    //Shuffleboard.getTab("Arm").add(m_robotArm);
+
+    Shuffleboard.getTab("Important").add("auto chooser", m_chooser);
+    m_chooser.setDefaultOption("just shoot", justScoreAuto);
+    m_chooser.addOption("shoot 1 and drive", moveAndJustScoreAuto);
+    m_chooser.addOption("do nothing", null);
+    m_chooser.addOption("test", testAuto);
+    m_chooser.addOption("test2 electric bugaloo", test2Auto);
+    m_chooser.addOption("test 3", test3);
+
   }
 
   /**
@@ -113,18 +180,19 @@ public class RobotContainer {
     m_driverController0.leftBumper().whileTrue(m_robotArm.moveToPosCommand(0.1));
     m_driverController0.rightBumper().whileTrue(m_robotArm.moveToPosCommand(Math.PI/3));
     
-    m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
+    //m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
     m_driverController1.rightBumper().whileTrue(m_robotIntake.shootSpeakerCommand());
     m_driverController1.y().whileTrue(m_robotIntake.intakeCommand());
     m_driverController1.x().whileTrue(m_robotIntake.shootAmpCommand());
     //m_driverController1.a().onTrue(m_robotArm.disableArm());
     m_driverController1.povUp().whileTrue(Commands.run(()->m_robotArm.setArmVelocity(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), 0.1)-MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.25), m_robotArm));
     
-    m_driverController1.a().whileTrue(m_robotIntake.justShootCommand(0.5));//MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.5));
+    //m_driverController1.a().whileTrue(m_robotIntake.justShootCommand(1));//MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.5));
     m_driverController1.b().whileTrue(m_robotIntake.justIntakeCommand(0.5));
-    m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.1));
+    m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.2));
     m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.3919));
-    m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(0.6128));
+    m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(1.067));
+    //m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(0.6128));
     
     //m_driverController1.x().whileTrue(m_robotIntake.justIntakeCommand(0));
     //m_driverController1.b().whileTrue(m_robotIntake.justShootCommand(0));
@@ -161,9 +229,10 @@ public class RobotContainer {
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return m_robotArm.moveToPosCommand(Math.PI/4)
+    return m_chooser.getSelected();
+    /*return m_robotArm.moveToPosCommand(Math.PI/4)
       .andThen(m_robotArm.moveToPosCommand(0.3919))
-      .andThen(m_robotIntake.shootSpeakerCommand());
+      .andThen(m_robotIntake.shootSpeakerCommand());*/
     //return new SequentialCommandGroup(m_robotArm.moveToPosCommand(Math.PI/3), m_robotArm.moveToPosCommand(0.3919), m_robotIntake.shootAmpCommand());
     //return m_robotDrive.getAutonomousCommand("test Auto");
   }

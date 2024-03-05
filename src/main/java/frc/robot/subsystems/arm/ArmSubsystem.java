@@ -178,13 +178,13 @@ public class ArmSubsystem extends SubsystemBase{
             //while(Math.abs(armEnc.getAbsolutePosition()-position)> ArmConstants.allowedErr){
                 /*armLeader.set(-MathUtil.clamp(ArmConstants.kP*(Math.abs(armEnc.getAbsolutePosition()-position))+ArmConstants.holdArmPower, 
                 ArmConstants.kMaxUpSpeed, ArmConstants.kMaxDownSpeed));*/
-                this.moveArmAtSpeed(ArmConstants.kP*(position-getArmAngleRadians()));
+                this.moveArmAtSpeed(MathUtil.clamp(ArmConstants.kP*(position-getArmAngleRadians()), -0.2, 0.2));
                 SmartDashboard.putNumber("goal", position);
                 SmartDashboard.putNumber("error", position-getArmAngleRadians());
             //}
         }).unless(()->position>ArmConstants.kMaxUpPos || position < ArmConstants.kMaxDownPos)
         .until(()->Math.abs(getArmAngleRadians()-position)< ArmConstants.allowedErr)
-        .andThen(this.run(()->this.moveArmAtSpeed(ArmConstants.kP*(position-getArmAngleRadians()))).withTimeout(2));
+        .andThen(this.run(()->this.moveArmAtSpeed(MathUtil.clamp(ArmConstants.kP*(position-getArmAngleRadians()), -0.2, 0.2))).withTimeout(0.5));
     }
     // motor.set(Clamp kp*error + ff)
 

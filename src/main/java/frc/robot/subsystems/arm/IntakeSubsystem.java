@@ -88,24 +88,35 @@ public class IntakeSubsystem extends SubsystemBase{
     public Command intakeCommand(){
         return this.run(()->this.intake())
         .until(()->this.getGamePiecePresent())
-        .andThen(this.run(()->this.setIntakeSpeed(-0.2)).withTimeout(0.1));//may need to reverse direction
+        .andThen(this.run(()->this.setIntakeSpeed(-0.2)).withTimeout(0.05));//may need to reverse direction
     }
-
+    public void stopShoot(){
+        this.setShooterSpeed(0);
+    }
+    public void stopIntake(){
+        this.setIntakeSpeed(0);
+    }  
     public Command stopIntakeCommand (){
         return this.startEnd(()-> this.setIntakeSpeed(0), ()->this.setIntakeSpeed(0));
     }
     public Command shootSpeakerCommand(){
-        Timer time = new Timer();
-        time.reset();
+        //Timer time = new Timer();
+        //time.reset();
         //time.restart();
-        time.start();
+        //time.start();
         return this.run(()->{
             this.setShooterSpeed(IntakeConstants.kShooterSpeedSpeaker);
             //SmartDashboard.putNumber("timer", time.get());
         }).withTimeout(0.3)//.until(()->time.get()>=0.2)//.withTimeout(0.1)//.until(()->time.get()>=0.2)
         .andThen(this.run(()->{
-            time.stop();
-            this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).withTimeout(0.5));//.withTimeout(2);//.withTimeout(2);
+            //time.stop();
+            this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).until(()->!this.getGamePiecePresent()).withTimeout(0.5))
+        .andThen(this.run(()->{
+            this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).withTimeout(0.1))
+        .andThen(this.run(()->{
+            this.stopIntake();
+            this.stopShoot();
+        }).withTimeout(0.1));//.withTimeout(2);//.withTimeout(2);
         /* .until(()->!this.getGamePiecePresent())
         .andThen(()->this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker)).withTimeout(0.05);*/
     }
@@ -138,7 +149,7 @@ public class IntakeSubsystem extends SubsystemBase{
         return this.startEnd(()->this.setShooterSpeed(0), ()->this.setShooterSpeed(0));
     }
     public Command justIntakeCommand(double speed){
-        return this.run(()->intakeMotor.set(speed));
+        return this.run(()->intakeMotor.set(speed));//.withInterruptBehavior(this.startEnd(()->this.stopIntake(), ()->this.stopIntake()));
     }
     public Command justShootCommand(double speed){
         return this.run(()->{shooterLeader.set(speed);
