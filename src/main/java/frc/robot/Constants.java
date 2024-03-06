@@ -52,7 +52,7 @@ public final class Constants {
    public static final class AutonConstants
   {
 
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0.01);
     public static final PIDConstants ANGLE_PID   = new PIDConstants(0.4, 0, 0.01);
   }
 
@@ -90,7 +90,7 @@ public final class Constants {
     public static final double maxAcc = 1500;
     public static final double kMaxVelocityRadPerSecond =10; //set latter
     public static final double kMaxAccelerationRadPerSecSquared = 275;
-    public static final double allowedErr= Units.degreesToRadians(1);//change
+    public static final double allowedErr= Units.degreesToRadians(2);//change
 
     public static final double ENCODER_OFFSET = 0.08d;
     //public static final double GRAVITY_FF = 0.01;

@@ -64,7 +64,7 @@ public class RobotContainer {
     m_robotIntake.shootSpeakerCommand().withTimeout(4),
     m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
     new ParallelCommandGroup(
-      (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)),
+      (new TeleopDrive(m_robotDrive, ()->0.1, ()->0, ()->0, ()->true)),
       m_robotIntake.intakeCommand()
     ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(0.7),
     (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
@@ -76,13 +76,13 @@ public class RobotContainer {
     m_robotIntake.shootSpeakerCommand().withTimeout(4),
     m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
     new ParallelCommandGroup(
-      (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)),
+      (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)),
       m_robotIntake.intakeCommand()
     ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(1.2),
     (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
     m_robotIntake.intakeCommand().withTimeout(.5),
     m_robotIntake.stopIntakeCommand().withTimeout(0.1),
-    (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)).withTimeout(0.7),
+    (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)).withTimeout(0.7),
     (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
     m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
     m_robotIntake.shootSpeakerCommand()
@@ -90,8 +90,8 @@ public class RobotContainer {
 
   private final Command test3 = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
     m_robotIntake.shootSpeakerCommand().withTimeout(4),
-    (new TeleopDrive(m_robotDrive, ()->0, ()->-0.6, ()->0, ()->true)).withTimeout(.3),
-    (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)).withTimeout(1.2),
+    (new TeleopDrive(m_robotDrive, ()->0, ()->0.6, ()->0, ()->true)).withTimeout(.3),
+    (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)).withTimeout(1.2),
     (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2));
 
 
@@ -127,18 +127,19 @@ public class RobotContainer {
     // Configure default commands
     
     TeleopDrive teleopDrive = new TeleopDrive(m_robotDrive, 
-      (()->MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.LEFT_Y_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
+      (()->-MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.LEFT_Y_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), OIConstants.RIGHT_TRIGGER_DEADBAND_1))), 
-      (()->MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
+      (()->-MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*MathUtil.applyDeadband(m_driverController0.getRightTriggerAxis(), OIConstants.RIGHT_TRIGGER_DEADBAND_1))),  
-      (()->MathUtil.applyDeadband(m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
+      (()->-MathUtil.applyDeadband(
+      m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
       ()->true);
-    
-    AbsoluteDrive absoluteDrive = new AbsoluteDrive(m_robotDrive, ()->MathUtil.applyDeadband(m_driverController0.getLeftY(), 0.1)*0.7,
-      ()->MathUtil.applyDeadband(m_driverController0.getLeftX(), 0.1)*0.7,
-      ()->MathUtil.applyDeadband(m_driverController0.getRightY(), 0.1)*0.7,
-      ()->MathUtil.applyDeadband(m_driverController0.getRightX(), 0.1)*0.7);
+        AbsoluteDrive absoluteDrive = new AbsoluteDrive(m_robotDrive, 
+      ()->MathUtil.applyDeadband(-m_driverController0.getLeftY(), 0.1)*0.7,
+      ()->MathUtil.applyDeadband(-m_driverController0.getLeftX(), 0.1)*0.7,
+      ()->MathUtil.applyDeadband(-m_driverController0.getRightY(), 0.1)*0.7,
+      ()->MathUtil.applyDeadband(-m_driverController0.getRightX(), 0.1)*0.7);
     /*TeleopDrive simClosedFieldRel = new TeleopDrive(m_robotDrive,
       (()->MathUtil.applyDeadband(m_driverController0.getLeftY(), OIConstants.LEFT_Y_DEADBAND_1)), 
       (()->MathUtil.applyDeadband(m_driverController0.getLeftX(), OIConstants.LEFT_X_DEADBAND_1)), 
@@ -161,7 +162,7 @@ public class RobotContainer {
     m_chooser.addOption("test", testAuto);
     m_chooser.addOption("test2 electric bugaloo", test2Auto);
     m_chooser.addOption("test 3", test3);
-
+    m_chooser.addOption("PATHPLANNER", new PathPlannerAuto("test Auto"));
   }
 
   /**
