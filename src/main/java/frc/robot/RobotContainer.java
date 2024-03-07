@@ -39,6 +39,7 @@ import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import java.util.List;
 
@@ -123,6 +124,11 @@ public class RobotContainer {
   public RobotContainer() {
      //m_robotDrive.addVisionMeasurement(m_robotLimelight);
     // Configure the button bindings
+    //register pathplanner named commands
+    NamedCommands.registerCommand("shoot", m_robotIntake.shootSpeakerCommand());
+    NamedCommands.registerCommand("intake", m_robotIntake.intakeCommand());
+    NamedCommands.registerCommand("move arm to shoot speaker at sub", m_robotArm.moveToPosCommand(0.3919));
+
     configureButtonBindings();
     // Configure default commands
     
@@ -162,7 +168,8 @@ public class RobotContainer {
     m_chooser.addOption("test", testAuto);
     m_chooser.addOption("test2 electric bugaloo", test2Auto);
     m_chooser.addOption("test 3", test3);
-    m_chooser.addOption("PATHPLANNER", new PathPlannerAuto("test Auto"));
+    m_chooser.addOption("PATHPLANNER", new PathPlannerAuto("Hayden Auto"));
+    m_chooser.addOption("PAthPlaner 2", new PathPlannerAuto("auto2"));
   }
 
   /**
@@ -192,6 +199,7 @@ public class RobotContainer {
     m_driverController1.b().whileTrue(m_robotIntake.justIntakeCommand(0.5));
     m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.2));
     m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.3919));
+    //m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.3919));
     m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(1.067));
     //m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(0.6128));
     
