@@ -162,7 +162,7 @@ public class ArmSubsystem extends SubsystemBase{
     public double getArmPositionDegrees(){
         return Units.rotationsToDegrees(armEncoder.getPosition() + ArmConstants.ENCODER_OFFSET);
     }
-    public void moveToPos(double position){
+    /*public void moveToPos(double position){
         if(position>ArmConstants.kMaxUpPos || position < ArmConstants.kMaxDownPos){
             return;
         }
@@ -172,7 +172,7 @@ public class ArmSubsystem extends SubsystemBase{
             //ArmConstants.kMaxUpSpeed, ArmConstants.kMaxDownSpeed));
             SmartDashboard.putString("test2", "yay");
         }
-    }
+    }*/
     public Command moveToPosCommand(double position){
         return this.run(()->{
             //while(Math.abs(armEnc.getAbsolutePosition()-position)> ArmConstants.allowedErr){
@@ -184,7 +184,7 @@ public class ArmSubsystem extends SubsystemBase{
             //}
         }).unless(()->position>ArmConstants.kMaxUpPos || position < ArmConstants.kMaxDownPos)
         .until(()->Math.abs(getArmAngleRadians()-position)< ArmConstants.allowedErr)
-        .andThen(this.run(()->this.moveArmAtSpeed(MathUtil.clamp(ArmConstants.kP*(position-getArmAngleRadians()), -0.2, 0.2))).withTimeout(0.5));
+        .andThen(this.run(()->this.moveArmAtSpeed(MathUtil.clamp(ArmConstants.kP*(position-getArmAngleRadians()), -0.2, 0.2))).withTimeout(0.2));
     }
     // motor.set(Clamp kp*error + ff)
 

@@ -43,8 +43,10 @@ public final class Constants {
     //public static final PIDFConfig yAutoPID     = new PIDFConfig(0.7, 0, 0);
     //public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
 
-    public static final PIDFConfig TranslationPID = new PIDFConfig(0.7, 0, 0);
-    public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.4, 0, 0.01);
+
+    
+    //public static final PIDFConfig TranslationPID = new PIDFConfig(0, 0, 0);
+    //public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.4, 0, 0.01);
 
     public static final double MAX_SPEED        = 4;
     public static final double MAX_ACCELERATION = 2;
@@ -52,7 +54,7 @@ public final class Constants {
    public static final class AutonConstants
   {
 
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0.01);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.1, 0, 0.0);
     public static final PIDConstants ANGLE_PID   = new PIDConstants(0.4, 0, 0.01);
   }
 
@@ -90,7 +92,7 @@ public final class Constants {
     public static final double maxAcc = 1500;
     public static final double kMaxVelocityRadPerSecond =10; //set latter
     public static final double kMaxAccelerationRadPerSecSquared = 275;
-    public static final double allowedErr= Units.degreesToRadians(2);//change
+    public static final double allowedErr= Units.degreesToRadians(5);//change
 
     public static final double ENCODER_OFFSET = 0.08d;
     //public static final double GRAVITY_FF = 0.01;
@@ -106,7 +108,7 @@ public final class Constants {
     public static final double kMaxDownSpeed= -0.5;
     public static final double kMaxUpSpeed= 0.5;
     public static final double kMaxUpPos = 1.82;
-    public static final double kMaxDownPos = 0.025;
+    public static final double kMaxDownPos = 0.004;
     //set value of deadzone
 
 
@@ -125,7 +127,7 @@ public final class Constants {
     public static final double shooterWheelRadius = Units.inchesToMeters(2); //in meter per seconds
     public static final double kShooterDistancePerPulse = 2*Math.PI*shooterWheelRadius; // in meters
 
-    public static int kBeamBreakSensorId = 3;
+    public static int kBeamBreakSensorId = 2;
 
     public static final double kIntakeSpeed = 0.3;
     public static final double kShooterSpeedSpeaker = 1;

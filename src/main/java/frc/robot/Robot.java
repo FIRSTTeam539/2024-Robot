@@ -53,8 +53,8 @@ public class Robot extends TimedRobot
       PortForwarder.add(port, "limelight.local", port);
     }
 
-    CameraServer.startAutomaticCapture(0);
-    CameraServer.startAutomaticCapture(1);
+    //CameraServer.startAutomaticCapture(0);
+    //CameraServer.startAutomaticCapture(1);
 
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 

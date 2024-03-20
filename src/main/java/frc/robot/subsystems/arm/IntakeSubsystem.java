@@ -88,7 +88,8 @@ public class IntakeSubsystem extends SubsystemBase{
     public Command intakeCommand(){
         return this.run(()->this.intake())
         .until(()->this.getGamePiecePresent())
-        .andThen(this.run(()->this.setIntakeSpeed(-0.2)).withTimeout(0.05));//may need to reverse direction
+        .finallyDo(()->this.stopIntake());
+       //.andThen(this.run(()->this.setIntakeSpeed(-0.2)).withTimeout(0.05));//may need to reverse direction
     }
     public void stopShoot(){
         this.setShooterSpeed(0);
@@ -108,11 +109,11 @@ public class IntakeSubsystem extends SubsystemBase{
             this.setShooterSpeed(IntakeConstants.kShooterSpeedSpeaker);
             //SmartDashboard.putNumber("timer", time.get());
         }).withTimeout(0.3)//.until(()->time.get()>=0.2)//.withTimeout(0.1)//.until(()->time.get()>=0.2)
-        .andThen(this.run(()->{
+        /*.andThen(this.run(()->{
             //time.stop();
             this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).until(()->!this.getGamePiecePresent()).withTimeout(0.5))
-        .andThen(this.run(()->{
-            this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).withTimeout(0.1))
+        */.andThen(this.run(()->{
+            this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).withTimeout(0.5))
         .andThen(this.run(()->{
             this.stopIntake();
             this.stopShoot();

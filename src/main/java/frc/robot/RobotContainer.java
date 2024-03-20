@@ -128,6 +128,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("shoot", m_robotIntake.shootSpeakerCommand());
     NamedCommands.registerCommand("intake", m_robotIntake.intakeCommand());
     NamedCommands.registerCommand("move arm to shoot speaker at sub", m_robotArm.moveToPosCommand(0.3919));
+    NamedCommands.registerCommand("move arm to intake", m_robotArm.moveToPosCommand(0.03));
 
     configureButtonBindings();
     // Configure default commands
@@ -162,14 +163,17 @@ public class RobotContainer {
     //Shuffleboard.getTab("Arm").add(m_robotArm);
 
     Shuffleboard.getTab("Important").add("auto chooser", m_chooser);
-    m_chooser.setDefaultOption("just shoot", justScoreAuto);
-    m_chooser.addOption("shoot 1 and drive", moveAndJustScoreAuto);
+    m_chooser.setDefaultOption("Just Shoot", justScoreAuto);
+    // m_chooser.addOption("shoot 1 and drive", moveAndJustScoreAuto);
+    // m_chooser.addOption("test", testAuto);
+    // m_chooser.addOption("test2 electric bugaloo", test2Auto);
+    // m_chooser.addOption("test 3", test3);
+    m_chooser.addOption("Amp Side 2 Note", new PathPlannerAuto("Amp Side 2 Note"));
+    m_chooser.addOption("Center 2 Note", new PathPlannerAuto("Center 2 Note"));
+    m_chooser.addOption("Stage Side 2 Note", new PathPlannerAuto("Stage Side 2 Note"));
+    m_chooser.addOption("Stage Side Taxi 1.5 Note", new PathPlannerAuto("Stage Side Taxi 1.5 Note"));
     m_chooser.addOption("do nothing", null);
-    m_chooser.addOption("test", testAuto);
-    m_chooser.addOption("test2 electric bugaloo", test2Auto);
-    m_chooser.addOption("test 3", test3);
-    m_chooser.addOption("PATHPLANNER", new PathPlannerAuto("Hayden Auto"));
-    m_chooser.addOption("PAthPlaner 2", new PathPlannerAuto("auto2"));
+    m_chooser.addOption("1m test", new PathPlannerAuto("1m test"));
   }
 
   /**
@@ -190,15 +194,15 @@ public class RobotContainer {
     
     //m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
     m_driverController1.rightBumper().whileTrue(m_robotIntake.shootSpeakerCommand());
-    m_driverController1.y().whileTrue(m_robotIntake.intakeCommand());
+    m_driverController1.y().whileTrue(m_robotIntake.intakeCommand().andThen(m_robotArm.moveToPosCommand(0.1)));
     m_driverController1.x().whileTrue(m_robotIntake.shootAmpCommand());
     //m_driverController1.a().onTrue(m_robotArm.disableArm());
     m_driverController1.povUp().whileTrue(Commands.run(()->m_robotArm.setArmVelocity(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), 0.1)-MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.25), m_robotArm));
     
     //m_driverController1.a().whileTrue(m_robotIntake.justShootCommand(1));//MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)*0.5));
-    m_driverController1.b().whileTrue(m_robotIntake.justIntakeCommand(0.5));
+    m_driverController1.b().whileTrue(m_robotIntake.justIntakeCommand(0.3 ));
     m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.2));
-    m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.3919));
+    m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.450));
     //m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.3919));
     m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(1.067));
     //m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(0.6128));
