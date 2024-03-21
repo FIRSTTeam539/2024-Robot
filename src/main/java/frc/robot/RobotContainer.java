@@ -176,6 +176,7 @@ public class RobotContainer {
     m_chooser.addOption("Center 3 Note", new PathPlannerAuto("Center 3 Note"));
     m_chooser.addOption("Stage Side 2 Note", new PathPlannerAuto("Stage Side 2 Note"));
     m_chooser.addOption("Stage Side Taxi 1.5 Note", new PathPlannerAuto("Stage Side Taxi 1.5 Note"));
+    m_chooser.addOption("Stage Side 3 Note", new PathPlannerAuto("Stage Side 3 Note"));
     m_chooser.addOption("do nothing", null);
     m_chooser.addOption("1m test", new PathPlannerAuto("1m test"));
     m_chooser.addOption("turn test", new PathPlannerAuto("turn test"));

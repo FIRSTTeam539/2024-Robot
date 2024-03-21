@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9189140731222643,
-        "y": 4.058753333932861
+        "x": 0.73,
+        "y": 4.380017461477765
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.056598699212937,
-        "y": 4.5911338881501305
+        "x": 1.73,
+        "y": 4.380017461477765
       },
       "isLocked": false,
-      "linkedName": "center 3.1 end"
+      "linkedName": "stage side note 1 endpoint"
     },
     {
       "anchor": {
-        "x": 2.8638402226859956,
-        "y": 5.453957544985013
+        "x": 1.5328888371428244,
+        "y": 4.380017461477765
       },
       "prevControl": {
-        "x": 2.8179460498285427,
-        "y": 4.958292826012229
+        "x": 1.000508282925556,
+        "y": 4.361659511332342
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "stage side 2 endpoint"
     }
   ],
   "rotationTargets": [],
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
