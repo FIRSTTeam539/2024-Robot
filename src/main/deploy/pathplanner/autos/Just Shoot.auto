@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7526759559623448,
-      "y": 4.398375411623188
+      "x": 1.3676672858340169,
+      "y": 5.5824631960029745
     },
-    "rotation": -59.335435419520124
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -21,18 +21,6 @@
           "type": "named",
           "data": {
             "name": "shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "move arm to intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Stage Side Taxi 1"
           }
         }
       ]

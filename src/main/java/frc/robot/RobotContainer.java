@@ -56,7 +56,7 @@ public class RobotContainer {
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
-  //private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
+  private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
 
   private final Command justScoreAuto = m_robotArm.moveToPosCommand(0.3919).withTimeout(3)
       .andThen(m_robotIntake.shootSpeakerCommand());
@@ -127,7 +127,8 @@ public class RobotContainer {
     //register pathplanner named commands
     NamedCommands.registerCommand("shoot", m_robotIntake.shootSpeakerCommand());
     NamedCommands.registerCommand("intake", m_robotIntake.intakeCommand());
-    NamedCommands.registerCommand("move arm to shoot speaker at sub", m_robotArm.moveToPosCommand(0.3919));
+    NamedCommands.registerCommand("intake for 1 seconds", m_robotIntake.intakeCommand().withTimeout(1.5));
+    NamedCommands.registerCommand("move arm to shoot speaker at sub", m_robotArm.moveToPosCommand(0.47).withTimeout(4));
     NamedCommands.registerCommand("move arm to intake", m_robotArm.moveToPosCommand(0.03));
 
     configureButtonBindings();
@@ -163,17 +164,20 @@ public class RobotContainer {
     //Shuffleboard.getTab("Arm").add(m_robotArm);
 
     Shuffleboard.getTab("Important").add("auto chooser", m_chooser);
-    m_chooser.setDefaultOption("Just Shoot", justScoreAuto);
+    // m_chooser.setDefaultOption("Just Shoot", justScoreAuto);
     // m_chooser.addOption("shoot 1 and drive", moveAndJustScoreAuto);
     // m_chooser.addOption("test", testAuto);
     // m_chooser.addOption("test2 electric bugaloo", test2Auto);
     // m_chooser.addOption("test 3", test3);
+    m_chooser.addOption("Just Shoot", new PathPlannerAuto("Just Shoot"));
     m_chooser.addOption("Amp Side 2 Note", new PathPlannerAuto("Amp Side 2 Note"));
     m_chooser.addOption("Center 2 Note", new PathPlannerAuto("Center 2 Note"));
+    m_chooser.addOption("Center 3 Note", new PathPlannerAuto("Center 3 Note"));
     m_chooser.addOption("Stage Side 2 Note", new PathPlannerAuto("Stage Side 2 Note"));
     m_chooser.addOption("Stage Side Taxi 1.5 Note", new PathPlannerAuto("Stage Side Taxi 1.5 Note"));
     m_chooser.addOption("do nothing", null);
     m_chooser.addOption("1m test", new PathPlannerAuto("1m test"));
+    m_chooser.addOption("turn test", new PathPlannerAuto("turn test"));
   }
 
   /**
@@ -203,6 +207,7 @@ public class RobotContainer {
     m_driverController1.b().whileTrue(m_robotIntake.justIntakeCommand(0.3 ));
     m_driverController1.povDown().whileTrue(m_robotIntake.justIntakeCommand(-0.2));
     m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.450));
+    //m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.450));
     //m_driverController1.povRight().whileTrue(m_robotArm.moveToPosCommand(0.3919));
     m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(1.067));
     //m_driverController1.povLeft().whileTrue(m_robotArm.moveToPosCommand(0.6128));

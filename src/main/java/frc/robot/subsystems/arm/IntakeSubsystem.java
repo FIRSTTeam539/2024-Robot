@@ -29,8 +29,8 @@ public class IntakeSubsystem extends SubsystemBase{
 
     public IntakeSubsystem(){
         intakeMotor.setIdleMode(IdleMode.kBrake);
-        shooterLeader.setIdleMode(IdleMode.kCoast);
-        shooterFollower.setIdleMode(IdleMode.kCoast);
+        shooterLeader.setIdleMode(IdleMode.kBrake);
+        shooterFollower.setIdleMode(IdleMode.kBrake);
 
         intakeMotor.setInverted(true);
 
@@ -87,7 +87,6 @@ public class IntakeSubsystem extends SubsystemBase{
     }
     public Command intakeCommand(){
         return this.run(()->this.intake())
-        .until(()->this.getGamePiecePresent())
         .finallyDo(()->this.stopIntake());
        //.andThen(this.run(()->this.setIntakeSpeed(-0.2)).withTimeout(0.05));//may need to reverse direction
     }
@@ -105,10 +104,10 @@ public class IntakeSubsystem extends SubsystemBase{
         //time.reset();
         //time.restart();
         //time.start();
-        return this.run(()->{
+        return this.run(()->this.setIntakeSpeed(-0.2)).withTimeout(0.05)
+        .andThen(this.run(()->{
             this.setShooterSpeed(IntakeConstants.kShooterSpeedSpeaker);
-            //SmartDashboard.putNumber("timer", time.get());
-        }).withTimeout(0.3)//.until(()->time.get()>=0.2)//.withTimeout(0.1)//.until(()->time.get()>=0.2)
+        }).withTimeout(0.3))//.until(()->time.get()>=0.2)//.withTimeout(0.1)//.until(()->time.get()>=0.2)
         /*.andThen(this.run(()->{
             //time.stop();
             this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker);}).until(()->!this.getGamePiecePresent()).withTimeout(0.5))

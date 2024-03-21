@@ -92,7 +92,7 @@ public final class Constants {
     public static final double maxAcc = 1500;
     public static final double kMaxVelocityRadPerSecond =10; //set latter
     public static final double kMaxAccelerationRadPerSecSquared = 275;
-    public static final double allowedErr= Units.degreesToRadians(5);//change
+    public static final double allowedErr= Units.degreesToRadians(4);//change
 
     public static final double ENCODER_OFFSET = 0.08d;
     //public static final double GRAVITY_FF = 0.01;
@@ -132,7 +132,7 @@ public final class Constants {
     public static final double kIntakeSpeed = 0.3;
     public static final double kShooterSpeedSpeaker = 1;
     public static final double kShooterSpeedAmp = 0.1;
-    public static final double kMaxShooterSpeedMetersPerSecond = 0.5;
+    //public static final double kMaxShooterSpeedMetersPerSecond = 0.5;
 
   }
 

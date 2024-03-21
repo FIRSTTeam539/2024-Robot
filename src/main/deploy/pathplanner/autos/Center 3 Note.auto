@@ -36,22 +36,21 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Center 1.5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake for 1 seconds"
-                }
-              }
-            ]
+            "name": "move arm to shoot speaker at sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 2"
           }
         },
         {
