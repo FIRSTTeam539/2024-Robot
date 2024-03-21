@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7343180058169219,
-      "y": 4.380017461477765
+      "x": 1.3401303606158823,
+      "y": 5.545747295712128
     },
-    "rotation": -58.079123780066865
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -32,7 +32,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Stage Side 1"
+            "pathName": "Center 1"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center 1.5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake for 1 seconds"
+                }
+              }
+            ]
           }
         },
         {
@@ -45,6 +64,12 @@
           "type": "named",
           "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Taxi"
           }
         }
       ]

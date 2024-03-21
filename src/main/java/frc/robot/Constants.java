@@ -81,7 +81,7 @@ public final class Constants {
     public static final double kIz = 0;
     public static final double kFF = 1.00;*/
 
-    public static final double holdArmPower = 0.073;
+    public static final double holdArmPower = 0.08;
 
 
     public static final double kMinOutput = -1;
@@ -92,7 +92,7 @@ public final class Constants {
     public static final double maxAcc = 1500;
     public static final double kMaxVelocityRadPerSecond =10; //set latter
     public static final double kMaxAccelerationRadPerSecSquared = 275;
-    public static final double allowedErr= Units.degreesToRadians(4);//change
+    public static final double allowedErr= Units.degreesToRadians(5);//change
 
     public static final double ENCODER_OFFSET = 0.08d;
     //public static final double GRAVITY_FF = 0.01;

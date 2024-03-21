@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3401303606158823,
-        "y": 5.545747295712128
+        "x": 1.3493093356885937,
+        "y": 5.5182103704939935
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.633857562942651,
-        "y": 5.426420619766877
+        "x": 1.4502780614884205,
+        "y": 4.995008791349437
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6068289206500723,
-        "y": 6.619687379219376
+        "x": 1.542067812215536,
+        "y": 4.012858458569303
       },
       "prevControl": {
-        "x": 2.8076879557076913,
-        "y": 6.763699517562574
+        "x": 1.4832936944526633,
+        "y": 4.012858458569303
       },
       "nextControl": {
-        "x": 1.633857562942651,
-        "y": 5.922085273693301
+        "x": 2.1937750423780535,
+        "y": 4.012858458569303
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3401303606158823,
-        "y": 5.545747295712128
+        "x": 2.5150391699229573,
+        "y": 4.012858458569303
       },
       "prevControl": {
-        "x": 1.523709862070113,
-        "y": 5.665073971657378
+        "x": 1.9000478400512855,
+        "y": 4.031216408714725
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,12 +47,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1,
-      "rotationDegrees": 50.38931175997342,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 0.55,
-      "rotationDegrees": 49.69218495290419,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
@@ -60,15 +55,15 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.25,
+      "waypointRelativePos": 1.4,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "intake"
+                "name": "intake for 1 seconds"
               }
             }
           ]
@@ -84,7 +79,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
