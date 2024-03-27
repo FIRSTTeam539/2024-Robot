@@ -2,15 +2,45 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7343180058169219,
-      "y": 4.380017461477765
+      "x": 0.72,
+      "y": 6.72
     },
-    "rotation": -52.0
+    "rotation": 52.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "move arm to shoot speaker at sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intake for 1 seconds"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -32,19 +62,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Stage Side 1"
+            "pathName": "amp side to middle"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "move arm to shoot speaker at sub"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot"
+            "pathName": "Center 1.5"
           }
         }
       ]

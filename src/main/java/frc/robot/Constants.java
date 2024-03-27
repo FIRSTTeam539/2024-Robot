@@ -130,8 +130,8 @@ public final class Constants {
     public static int kBeamBreakSensorId = 2;
 
     public static final double kIntakeSpeed = 0.3;
-    public static final double kShooterSpeedSpeaker = 1;
-    public static final double kShooterSpeedAmp = 0.1;
+    public static final double kShooterSpeedSpeaker = 0.9;
+    public static final double kShooterSpeedAmp = 0.6;
     //public static final double kMaxShooterSpeedMetersPerSecond = 0.5;
 
   }

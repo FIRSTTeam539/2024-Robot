@@ -5,7 +5,7 @@
       "x": 0.7343180058169219,
       "y": 4.380017461477765
     },
-    "rotation": -58.079123780066865
+    "rotation": -52.0
   },
   "command": {
     "type": "sequential",
@@ -54,19 +54,13 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "3 note stage 2"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "3 note stage 3"
+                  "pathName": "3 note stage 2"
                 }
               },
               {
@@ -81,7 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "3 note stage 4"
+            "pathName": "3 note stage 3"
           }
         },
         {

@@ -136,7 +136,11 @@ public class IntakeSubsystem extends SubsystemBase{
             //SmartDashboard.putNumber("timer", time.get());
         }).withTimeout(0.2)//.until(()->time.get()>=0.2)//.withTimeout(0.1)//.until(()->time.get()>=0.2)
         .andThen(this.run(()->{
-            this.shootAndIntake(IntakeConstants.kShooterSpeedAmp);}).withTimeout(0.5));//.withTimeout(2);//.withTimeout(2);
+            this.shootAndIntake(IntakeConstants.kShooterSpeedAmp);}).withTimeout(1))
+        .finallyDo(()->{
+            this.stopIntake();
+            this.stopShoot();
+            });//.withTimeout(2);//.withTimeout(2);
         /* .until(()->!this.getGamePiecePresent())
         .andThen(()->this.shootAndIntake(IntakeConstants.kShooterSpeedSpeaker)).withTimeout(0.05);*/
     }

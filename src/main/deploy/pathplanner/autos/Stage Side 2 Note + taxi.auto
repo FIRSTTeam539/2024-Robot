@@ -46,6 +46,12 @@
           "data": {
             "name": "shoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stage Side Taxi 1"
+          }
         }
       ]
     }
