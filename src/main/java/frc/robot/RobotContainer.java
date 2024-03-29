@@ -56,61 +56,7 @@ public class RobotContainer {
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
-  private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
-
-  private final Command justScoreAuto = m_robotArm.moveToPosCommand(0.3919).withTimeout(3)
-      .andThen(m_robotIntake.shootSpeakerCommand());
-
-  private final Command testAuto = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
-    m_robotIntake.shootSpeakerCommand().withTimeout(4),
-    m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
-    new ParallelCommandGroup(
-      (new TeleopDrive(m_robotDrive, ()->0.1, ()->0, ()->0, ()->true)),
-      m_robotIntake.intakeCommand()
-    ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(0.7),
-    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
-    m_robotIntake.intakeCommand().withTimeout(.5));/*m_robotArm.moveToPosCommand(0.3919).withTimeout(3)
-      .andThen(m_robotIntake.shootSpeakerCommand().withTimeout(4))
-      .andThen(m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos))
-      .andThen((new ParallelCommandGroup((new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)), m_robotIntake.intakeCommand()).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(0.75)));*/
-  private final Command test2Auto = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
-    m_robotIntake.shootSpeakerCommand().withTimeout(4),
-    m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
-    new ParallelCommandGroup(
-      (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)),
-      m_robotIntake.intakeCommand()
-    ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(1.2),
-    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
-    m_robotIntake.intakeCommand().withTimeout(.5),
-    m_robotIntake.stopIntakeCommand().withTimeout(0.1),
-    (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)).withTimeout(0.7),
-    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2),
-    m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
-    m_robotIntake.shootSpeakerCommand()
-    );
-
-  private final Command test3 = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
-    m_robotIntake.shootSpeakerCommand().withTimeout(4),
-    (new TeleopDrive(m_robotDrive, ()->0, ()->0.6, ()->0, ()->true)).withTimeout(.3),
-    (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)).withTimeout(1.2),
-    (new TeleopDrive(m_robotDrive, ()->0, ()->0, ()->0, ()->true)).withTimeout(.2));
-
-
-    /*private final Command test3Auto = new SequentialCommandGroup(m_robotArm.moveToPosCommand(0.3919).withTimeout(3),
-      m_robotIntake.shootSpeakerCommand().withTimeout(4),
-      m_robotArm.moveToPosCommand(ArmConstants.kMaxDownPos),
-      new ParallelCommandGroup(
-        (new TeleopDrive(m_robotDrive, ()->-0.6, ()->0, ()->0, ()->true)),
-        m_robotIntake.intakeCommand()
-      ).until(()->m_robotIntake.getGamePiecePresent()).withTimeout(0.7),
-      m_robotIntake.intakeCommand().withTimeout(.5),
-      (new TeleopDrive(m_robotDrive, ()->0.6, ()->0, ()->0, ()->true)).withTimeout(1)
-    );*/
-  
-  private final Command moveAndJustScoreAuto =m_robotArm.moveToPosCommand(Math.PI/4)
-      .andThen(m_robotArm.moveToPosCommand(0.3919).withTimeout(3))
-      .andThen(m_robotIntake.shootSpeakerCommand().withTimeout(3 ))
-      .andThen((new TeleopDrive(m_robotDrive, ()->-0.5, ()->0, ()->0, ()->true)).withTimeout(2));
+  //private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
     
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   // The driver's controller
@@ -127,7 +73,7 @@ public class RobotContainer {
     //register pathplanner named commands
     NamedCommands.registerCommand("shoot", m_robotIntake.shootSpeakerCommand());
     NamedCommands.registerCommand("intake", m_robotIntake.intakeCommand());
-    NamedCommands.registerCommand("intake for 1 seconds", m_robotIntake.intakeCommand().withTimeout(1.5));
+    NamedCommands.registerCommand("intake for 1 seconds", m_robotIntake.intakeCommand().withTimeout(1));
     NamedCommands.registerCommand("move arm to shoot speaker at sub", m_robotArm.moveToPosCommand(0.47).withTimeout(4));
     NamedCommands.registerCommand("move arm to intake", m_robotArm.moveToPosCommand(0.03));
 
@@ -172,6 +118,7 @@ public class RobotContainer {
     m_chooser.addOption("Just Shoot", new PathPlannerAuto("Just Shoot"));
     m_chooser.addOption("Amp Side 2 Note", new PathPlannerAuto("Amp Side 2 Note"));
     m_chooser.addOption("Center 2 Note", new PathPlannerAuto("Center 2 Note"));
+    m_chooser.addOption("Center 2.5 Note", new PathPlannerAuto("Center 2.5 Note"));
     m_chooser.addOption("Center 2 Note and Taxi", new PathPlannerAuto("Center 2 Note and Taxi"));
     m_chooser.addOption("Center 3 Note", new PathPlannerAuto("Center 3 Note"));
     m_chooser.addOption("Stage Side 2 Note", new PathPlannerAuto("Stage Side 2 Note"));
@@ -180,7 +127,7 @@ public class RobotContainer {
     m_chooser.addOption("Stage Side 3 Note", new PathPlannerAuto("Stage Side 3 Note"));
     m_chooser.addOption("do nothing", null);
     m_chooser.addOption("1m test", new PathPlannerAuto("1m test"));
-    m_chooser.addOption("turn test", new PathPlannerAuto("turn test"));
+    m_chooser.addOption("test Auto", new PathPlannerAuto("test Auto"));
   }
 
   /**

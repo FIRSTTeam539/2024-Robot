@@ -2,19 +2,38 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3493093356885937,
-      "y": 5.334630869039763
+      "x": 0.7343180058169219,
+      "y": 4.4075543866958995
     },
-    "rotation": 0
+    "rotation": -61.144338780283555
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "center 4.1"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Stage Side Rotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "move arm to shoot speaker at sub"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         }
       ]

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.288614490658505,
-        "y": 6.794087905600896
+        "x": 2.4324283942685536,
+        "y": 4.123006159441842
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.802128811804795,
-        "y": 7.078636132854952
+        "x": 1.8816898899058623,
+        "y": 4.113827184369131
       },
       "isLocked": false,
-      "linkedName": "anti-fresta endpoint 1"
+      "linkedName": "stage side 1 end"
     },
     {
       "anchor": {
-        "x": 7.792949836732084,
-        "y": 7.409079235472567
+        "x": 0.7159600556714989,
+        "y": 4.343301561186919
       },
       "prevControl": {
-        "x": 7.87556061238649,
-        "y": 7.087815107927664
+        "x": 0.8905734632334971,
+        "y": 3.956981044683511
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,19 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.65,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.5,
+        "maxAngularVelocity": 280.0,
+        "maxAngularAcceleration": 370.0
+      }
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.7,
@@ -39,7 +51,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -52.0,
     "rotateFast": false
   },
   "reversed": false,

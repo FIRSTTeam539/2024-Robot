@@ -12,9 +12,22 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "move arm to shoot speaker at sub"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Stage Side Rotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "move arm to shoot speaker at sub"
+                }
+              }
+            ]
           }
         },
         {
@@ -36,9 +49,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "move arm to shoot speaker at sub"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Stage Side 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake for 1 seconds"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "move arm to shoot speaker at sub"
+                }
+              }
+            ]
           }
         },
         {

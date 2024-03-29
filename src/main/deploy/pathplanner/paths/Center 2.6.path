@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.288614490658505,
-        "y": 6.794087905600896
+        "x": 8.09,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.802128811804795,
-        "y": 7.078636132854952
+        "x": 6.929679716009548,
+        "y": 4.1
       },
       "isLocked": false,
-      "linkedName": "anti-fresta endpoint 1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.792949836732084,
-        "y": 7.409079235472567
+        "x": 4.6629193369374535,
+        "y": 4.737997489313514
       },
       "prevControl": {
-        "x": 7.87556061238649,
-        "y": 7.087815107927664
+        "x": 5.30544759202726,
+        "y": 3.9945005084238807
+      },
+      "nextControl": {
+        "x": 3.8989922923702425,
+        "y": 5.621970212312715
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.36,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 2.5728757421558566,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +61,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true
