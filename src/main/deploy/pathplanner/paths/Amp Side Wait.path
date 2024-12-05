@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 0.7802128811804795,
-        "y": 4.39
+        "y": 6.711477129946491
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1845960673053426,
-        "y": 1.2040920863195779
+        "x": 1.2575195849614786,
+        "y": 7.519226936345106
       },
       "isLocked": false,
-      "linkedName": "Stage side rotated"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.84700712131724,
-        "y": 0.7635012828294246
+        "x": 2.6802607212317646,
+        "y": 7.675269512581202
       },
       "prevControl": {
-        "x": 1.8082580893241698,
-        "y": 0.818575133265694
+        "x": 1.6802607212317646,
+        "y": 7.675269512581202
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "stage side taxi 1 endpoint"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -38,14 +38,14 @@
     "maxAngularAcceleration": 350.0
   },
   "goalEndState": {
-    "velocity": 2.0,
+    "velocity": 0,
     "rotation": 0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -60.57254359681024,
+    "rotation": 55.28011180271799,
     "velocity": 0
   },
   "useDefaultConstraints": true

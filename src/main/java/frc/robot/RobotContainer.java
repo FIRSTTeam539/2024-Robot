@@ -53,9 +53,9 @@ public class RobotContainer {
   // The robot's subsystems
   private final SwerveSubsystem m_robotDrive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
   "swerve"));
-  private final ArmSubsystem m_robotArm = new ArmSubsystem();
-  private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
-  private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
+  //private final ArmSubsystem m_robotArm = new ArmSubsystem();
+  //private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  //private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
   //private final LimelightSubsystem m_robotLimelight = new LimelightSubsystem("limelight");
     
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -71,11 +71,12 @@ public class RobotContainer {
      //m_robotDrive.addVisionMeasurement(m_robotLimelight);
     // Configure the button bindings
     //register pathplanner named commands
-    NamedCommands.registerCommand("shoot", m_robotIntake.shootSpeakerCommand());
+    /*NamedCommands.registerCommand("shoot", m_robotIntake.shootSpeakerCommand());
     NamedCommands.registerCommand("intake", m_robotIntake.intakeCommand());
     NamedCommands.registerCommand("intake for 1 seconds", m_robotIntake.intakeCommand().withTimeout(1));
     NamedCommands.registerCommand("move arm to shoot speaker at sub", m_robotArm.moveToPosCommand(0.47).withTimeout(4));
-    NamedCommands.registerCommand("move arm to intake", m_robotArm.moveToPosCommand(0.03));
+    NamedCommands.registerCommand("move arm to shoot from side", m_robotArm.moveToPosCommand(0.43).withTimeout(4));
+    NamedCommands.registerCommand("move arm to intake", m_robotArm.moveToPosCommand(0.03));*/
 
     configureButtonBindings();
     // Configure default commands
@@ -88,7 +89,7 @@ public class RobotContainer {
       (()->-MathUtil.applyDeadband(
       m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
-      ()->true);
+      ()->false);
         AbsoluteDrive absoluteDrive = new AbsoluteDrive(m_robotDrive, 
       ()->MathUtil.applyDeadband(-m_driverController0.getLeftY(), 0.1)*0.7,
       ()->MathUtil.applyDeadband(-m_driverController0.getLeftX(), 0.1)*0.7,
@@ -102,10 +103,10 @@ public class RobotContainer {
   
     //m_robotDrive.setDefaultCommand(!RobotBase.isSimulation() ? teleopDrive : simClosedFieldRel);
     m_robotDrive.setDefaultCommand(teleopDrive);
-    m_robotClimb.setDefaultCommand(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)), m_robotClimb)); // works
+   /* m_robotClimb.setDefaultCommand(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)), m_robotClimb)); // works
     m_robotArm.setDefaultCommand(Commands.run(()->m_robotArm.setArmVelocity(MathUtil.applyDeadband(m_driverController1.getRightTriggerAxis(), 0.1)-MathUtil.applyDeadband(m_driverController1.getLeftTriggerAxis(),0.1)),m_robotArm));
 
-    m_robotIntake.setDefaultCommand(Commands.run(()->m_robotIntake.disable(), m_robotIntake));
+    m_robotIntake.setDefaultCommand(Commands.run(()->m_robotIntake.disable(), m_robotIntake));*/
     
     //Shuffleboard.getTab("Arm").add(m_robotArm);
 
@@ -117,13 +118,15 @@ public class RobotContainer {
     // m_chooser.addOption("test 3", test3);
     m_chooser.addOption("Just Shoot", new PathPlannerAuto("Just Shoot"));
     m_chooser.addOption("Amp Side 2 Note", new PathPlannerAuto("Amp Side 2 Note"));
+    m_chooser.addOption("Amp Side Wait", new PathPlannerAuto("Amp Side Wait"));
     m_chooser.addOption("Center 2 Note", new PathPlannerAuto("Center 2 Note"));
-    m_chooser.addOption("Center 2.5 Note", new PathPlannerAuto("Center 2.5 Note"));
+    m_chooser.addOption("Center 3 Note Long", new PathPlannerAuto("Center 3 Note Long"));
     m_chooser.addOption("Center 2 Note and Taxi", new PathPlannerAuto("Center 2 Note and Taxi"));
     m_chooser.addOption("Center 3 Note", new PathPlannerAuto("Center 3 Note"));
     m_chooser.addOption("Stage Side 2 Note", new PathPlannerAuto("Stage Side 2 Note"));
-    m_chooser.addOption("Stage Side 2  + taxi", new PathPlannerAuto("Stage Side 2 Note + taxi"));
-    m_chooser.addOption("Stage Side Taxi 1.5 Note", new PathPlannerAuto("Stage Side Taxi 1.5 Note"));
+    m_chooser.addOption("Stage Side 2.5 Note", new PathPlannerAuto("Stage Side 2.5 Note"));
+    m_chooser.addOption("Stage Side Taxi 2 Note", new PathPlannerAuto("Stage Side Taxi 2 Note"));
+    m_chooser.addOption("Stage Side Taxi 2 Note New", new PathPlannerAuto("Stage Side Taxi 2 Note New"));
     m_chooser.addOption("Stage Side 3 Note", new PathPlannerAuto("Stage Side 3 Note"));
     m_chooser.addOption("do nothing", null);
     m_chooser.addOption("1m test", new PathPlannerAuto("1m test"));
@@ -143,7 +146,7 @@ public class RobotContainer {
     //when the right stick is pushed down, moves wheels in x formation to stop all movement
     m_driverController0.x().whileTrue(Commands.run(() -> m_robotDrive.lock())); 
     m_driverController0.y().whileTrue(Commands.run(() -> m_robotDrive.zeroGyro()));
-    m_driverController0.leftBumper().whileTrue(m_robotArm.moveToPosCommand(0.1));
+    /*m_driverController0.leftBumper().whileTrue(m_robotArm.moveToPosCommand(0.1));
     m_driverController0.rightBumper().whileTrue(m_robotArm.moveToPosCommand(Math.PI/3));
     
     //m_driverController1.leftBumper().whileTrue(Commands.run(()->m_robotClimb.setDualClimb(MathUtil.applyDeadband(m_driverController1.getLeftY(), 0.2), MathUtil.applyDeadband(m_driverController1.getRightY(), 0.2)*0.6), m_robotClimb));
@@ -180,7 +183,7 @@ public class RobotContainer {
     //m_driverController1.leftTrigger().onTrue(m_robotIntake.intakeCommand());
     //m_driverController1.rightBumper().onTrue(m_robotIntake.shootSpeakerCommand());
     //m_driverController1.leftBumper().onTrue(m_robotIntake.shootSpeakerCommand());
-    //m_driverController0.rightBumper().onTrue(Commands.run(() -> Climb.Climb)));
+    //m_driverController0.rightBumper().onTrue(Commands.run(() -> Climb.Climb)));*/
   }
   /*public void periodic(){
     if(m_robotLimelight.getTV()){

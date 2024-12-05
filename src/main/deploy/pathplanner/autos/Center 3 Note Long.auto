@@ -2,15 +2,39 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 4.4
+      "x": 1.36,
+      "y": 5.545747295712128
     },
-    "rotation": -59.34000000000003
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "move arm to shoot speaker at sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "move arm to intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 1"
+          }
+        },
         {
           "type": "parallel",
           "data": {
@@ -18,7 +42,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Stage Side Rotate"
+                  "pathName": "Center 1.5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake for 1 seconds"
                 }
               },
               {
@@ -45,7 +75,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Stage Side 1"
+            "pathName": "Center 2.5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 2.6"
           }
         },
         {
@@ -55,19 +91,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Stage Side 2"
+                  "pathName": "Center 2.7"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "intake for 1 seconds"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "move arm to shoot from side"
                 }
               }
             ]
