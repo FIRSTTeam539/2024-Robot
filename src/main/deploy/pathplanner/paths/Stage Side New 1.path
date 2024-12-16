@@ -8,24 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1845960673053426,
-        "y": 1.2040920863195779
+        "x": 0.7802128811804796,
+        "y": 2.680699010482929
       },
       "isLocked": false,
       "linkedName": "Stage side rotated"
     },
     {
       "anchor": {
-        "x": 5.84700712131724,
-        "y": 0.7635012828294246
+        "x": 4.222328533447301,
+        "y": 1.3234187622648272
       },
       "prevControl": {
-        "x": 1.8082580893241698,
-        "y": 0.818575133265694
+        "x": 1.3764761650122663,
+        "y": 1.3234187622648272
+      },
+      "nextControl": {
+        "x": 7.187137481933123,
+        "y": 1.3234187622648272
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.370716983387352,
+        "y": 2.259674219681403
+      },
+      "prevControl": {
+        "x": 6.929743888455653,
+        "y": 2.259674219681403
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "stage side taxi 1 endpoint"
+      "linkedName": "Stage Side New 1 End"
     }
   ],
   "rotationTargets": [],
@@ -40,12 +56,12 @@
   "goalEndState": {
     "velocity": 2.0,
     "rotation": 0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -60.57254359681024,
+    "rotation": -52.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

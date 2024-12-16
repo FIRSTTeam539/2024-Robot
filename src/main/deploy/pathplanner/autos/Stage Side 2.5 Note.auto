@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 4.4
+      "x": 0.7526759559623448,
+      "y": 4.398375411623188
     },
-    "rotation": -59.34000000000003
+    "rotation": -59.335435419520124
   },
   "command": {
     "type": "sequential",
@@ -77,6 +77,67 @@
           "type": "named",
           "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "move arm to intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stage Side Taxi 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stage Side Taxi 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stage Side Taxi 3"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Stage Side Taxi 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "move arm to shoot speaker at sub"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake for 1 seconds"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Stage Side Taxi 1"
           }
         }
       ]

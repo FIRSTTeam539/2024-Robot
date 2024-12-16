@@ -32,19 +32,25 @@
     },
     {
       "anchor": {
-        "x": 8.08667703905885,
-        "y": 4.095469234223708
+        "x": 6.74654667844297,
+        "y": 4.067932309005573
       },
       "prevControl": {
-        "x": 6.342647620213379,
-        "y": 4.095469234223708
+        "x": 5.736859420444701,
+        "y": 4.058753333932861
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "center 2.5 endpoint"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.85,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -67,12 +73,12 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.7,
-    "maxAcceleration": 1.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 280.0,
-    "maxAngularAcceleration": 370.0
+    "maxAngularAcceleration": 350.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": 0,
     "rotateFast": false
   },

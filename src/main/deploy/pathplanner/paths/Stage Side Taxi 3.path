@@ -3,70 +3,46 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.74654667844297,
-        "y": 4.067932309005573
+        "x": 8.270256540513081,
+        "y": 0.7543223077567138
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.067941907453253,
-        "y": 4.067932309005573
+        "x": 2.9189140731250376,
+        "y": 0.680890507179619
       },
       "isLocked": false,
-      "linkedName": "center 2.5 endpoint"
+      "linkedName": "stage side taxi 2 endpoint"
     },
     {
       "anchor": {
-        "x": 8.09,
-        "y": 4.1
+        "x": 0.8903605820557912,
+        "y": 3.278540452756981
       },
       "prevControl": {
-        "x": 7.802093159457024,
-        "y": 4.1
+        "x": 1.48699396178204,
+        "y": 0.9379018092155416
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "center 2.7 start"
+      "linkedName": "stage side taxi 3 endpoint"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.95,
-      "rotationDegrees": 0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 2.0,
+        "maxVelocity": 2.7,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 280.0,
         "maxAngularAcceleration": 350.0
       }
     }
   ],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.95,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.7,
     "maxAcceleration": 3.0,
@@ -74,8 +50,8 @@
     "maxAngularAcceleration": 350.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 0,
+    "velocity": 1.5,
+    "rotation": -52.0,
     "rotateFast": false
   },
   "reversed": false,

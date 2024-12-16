@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7526759559623448,
-      "y": 4.398375411623188
+      "x": 0.7802128811804795,
+      "y": 6.70229815487378
     },
-    "rotation": -59.335435419520124
+    "rotation": 56.30993247402024
   },
   "command": {
     "type": "sequential",
@@ -24,15 +24,15 @@
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "move arm to intake"
+            "waitTime": 10.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Stage Side Taxi 1"
+            "pathName": "Amp Side Wait"
           }
         }
       ]

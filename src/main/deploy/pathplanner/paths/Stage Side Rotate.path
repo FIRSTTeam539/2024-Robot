@@ -20,12 +20,12 @@
         "y": 4.39
       },
       "prevControl": {
-        "x": 0.7802128811804795,
+        "x": 0.7802128811804794,
         "y": 4.3991789750727115
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Stage side rotated"
     }
   ],
   "rotationTargets": [],
@@ -33,9 +33,9 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.7,
-    "maxAcceleration": 1.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 280.0,
-    "maxAngularAcceleration": 370.0
+    "maxAngularAcceleration": 350.0
   },
   "goalEndState": {
     "velocity": 0,

@@ -81,7 +81,7 @@ public final class Constants {
     public static final double kIz = 0;
     public static final double kFF = 1.00;*/
 
-    public static final double holdArmPower = 0.08;
+    public static final double holdArmPower = 0.085;
 
 
     public static final double kMinOutput = -1;
