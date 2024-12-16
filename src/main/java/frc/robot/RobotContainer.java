@@ -89,7 +89,7 @@ public class RobotContainer {
       (()->-MathUtil.applyDeadband(
       m_driverController0.getRightX(), OIConstants.RIGHT_X_DEADBAND_1)*(OIConstants.kDefaultDriveSpeed+
       OIConstants.kDriveSpeedIncreaseConstant*m_driverController0.getRightTriggerAxis())), 
-      ()->false);
+      ()->true);
         AbsoluteDrive absoluteDrive = new AbsoluteDrive(m_robotDrive, 
       ()->MathUtil.applyDeadband(-m_driverController0.getLeftY(), 0.1)*0.7,
       ()->MathUtil.applyDeadband(-m_driverController0.getLeftX(), 0.1)*0.7,
